@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #695A4C;
+    padding: 0px 40px;
+}
+
+.right-side {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+h1 {
+   color: #DCD1BE; 
+}
+
+.search {
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #ddd;
+    margin-right: 0px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
