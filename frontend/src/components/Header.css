@@ -29,3 +29,7 @@ h1 {
     height: 40px;
     border-radius: 50%;
 }
+
+.link-dec {
+    text-decoration: none;
+}
