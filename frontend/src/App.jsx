@@ -11,6 +11,7 @@ import RestaurantInfoPage from './Pages/RestaurantInfo';
 import RestaurantListPage from './Pages/RestaurantList';
 import UserPage from './Pages/User';
 import ReviewsPage from './Pages/Reviews';
+import RegisterPage from './Pages/Register';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/deals" element={<DealsPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/reservations" element={<ReservationPage />} />

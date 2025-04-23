@@ -1,34 +1,65 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import mysql from "mysql2";
-import connection from './database.js';
+import bcrypt from "bcrypt";
+import connection from "./database.js"
+
 
 dotenv.config();
+
 const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
+
 app.use(express.json());
 
-// // DB Connection
-// const db = mysql.createConnection({
-//   host: "127.0.0.1",
-//   user: "root",
-//   password: "",
-//   database: "DineNear",
-// });
+async function checkUserExists(email) {
+  const query = "SELECT * FROM users WHERE email = ?";
+  const [results] = await connection.promise().query(query, [email]);
+  return results.length > 0;
+}
 
-// db.connect((err) => {
-//     if (err) {
-//       console.error("Database connection failed:", err);
-//       return;
-//     }
-//     console.log("Connected to MySQL database!");
-//  });  
+async function hashPassword(password) {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) return reject(err);
+      resolve(hashedPassword);
+    });
+  });
+}
 
-app.get("/", (req, res) => {
-    res.send("Welcome to the DineNear backend!");
+async function insertUser(email, password, name, dob) {
+  const query = "INSERT INTO users (email, password, name, dob) VALUES (?, ?, ?, ?)";
+  try {
+    await connection.promise().query(query, [email, password, name, dob]);
+  } catch (err) {
+    console.error("Error inserting user", err);
+    throw err;
+  }
+}
+
+app.post("/register", async (request, response) => {
+  const { email, password, name, dob } = request.body;
+
+  try {
+    const userExists = await checkUserExists(email);
+    if (userExists) {
+      return response.send([false, "User already exists"]);
+    }
+
+    // Hash the password
+    const hashedPassword = await hashPassword(password);
+
+    // Insert the new user into the database with the hashed password
+    await insertUser(email, hashedPassword, name, dob);
+
+    // Send a success response
+    response.send([true, "User successfully registered."]);
+  } catch (err) {
+    console.error("Error:", err);
+    response.status(500).send("Server error");
+  }
 });
 
 app.listen(8080, () => {
-  console.log("Backend running on http://localhost:8080");
+console.log("Backend running on http://localhost:8080");
 });
