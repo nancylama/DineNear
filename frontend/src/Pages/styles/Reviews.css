@@ -3,51 +3,66 @@ body {
 }
 
 .text {
+    font-family: 'Kreon';
     font-size: 30px;
     font-weight: 700;
+    color: black; 
+}
+body {
+  margin: 0;
+  background-color: #DCD1BE;
 }
 
-.container {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.hero {
+  background-image: url('your-background-image.jpg'); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  padding: 80px 0;
+  text-align: center;
+  color: #fff;
 }
 
-.inputs {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.hero h1 {
+  font-size: 4rem;
+  color: black;
+  font-weight: bold;
 }
 
-.input input {
-    height: 50px;
-    width: 500px;
-    border: none;
-    outline: none;
-    background-color: white;
-    border-radius: 10px;
-    font-size: 17px;
-    padding-left: 15px;
-    padding-right: 15px;
+.reviews-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 40px;
+  flex-wrap: wrap;
 }
 
-.submit-cont {
-    display: flex;
-    margin: 60px auto;
+.review-card {
+  background-color: #FAFAFA;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+  width: 250px;
+  text-align: center;
 }
 
-.submit {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 60px;
-    background-color: #4F180B;
-    border-radius: 50px;
-    cursor: pointer;
-    color: white;
-    font-size: 17px;
+.stars {
+  color: gold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.profile {
+  margin-top: 15px;
+}
+
+.profile img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.username {
+  margin-top: 5px;
+  font-weight: bold;
 }
