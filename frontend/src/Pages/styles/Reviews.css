@@ -8,10 +8,6 @@ body {
     font-weight: 700;
     color: black; 
 }
-body {
-  margin: 0;
-  background-color: #DCD1BE;
-}
 
 .hero {
   background-image: url('your-background-image.jpg'); /* Replace with your image path */
