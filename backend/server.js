@@ -8,8 +8,8 @@ import connection from "./database.js"
 dotenv.config();
 
 const app = express();
+const cors = require('cors');
 app.use(cors({ origin: "http://localhost:5173" }));
-
 app.use(express.json());
 
 async function checkUserExists(email) {
@@ -62,4 +62,11 @@ app.post("/register", async (request, response) => {
 
 app.listen(8080, () => {
 console.log("Backend running on http://localhost:8080");
+});
+
+app.get('/api/users', (req, res) => {
+  db.query('SELECT * FROM users', (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
 });

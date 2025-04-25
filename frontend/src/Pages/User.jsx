@@ -3,6 +3,11 @@ import React from "react";
 const UserPage = () => {
     return (
         <div>
+            <img 
+                src="/profile_placeholder.jpg"
+                alt="Placeholder profile picture"
+                className="profile-pic"
+            />
             
         </div>
     );
