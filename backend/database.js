@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   ssl: {
-    rejectUnauthorized: true
+    rejectUnauthorized: false, // usually set to false for Railway
   }
 });
 
@@ -23,4 +23,3 @@ connection.connect((err) => {
 });
 
 export default connection;
-
