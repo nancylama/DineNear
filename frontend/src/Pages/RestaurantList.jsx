@@ -42,7 +42,7 @@ const RestaurantListPage = () => {
                     {topRestaurants.map((restaurant) => (
                         <div className="card" key={restaurant.id}>
                             <img src={restaurant.image_url} alt="Image of restaurant"/>
-                            <p>{restaurant.name}</p>
+                            <h3 className="res-name">{restaurant.name}</h3>
                             <p>Rating: {restaurant.rating}</p>
                         </div>
                     ))}

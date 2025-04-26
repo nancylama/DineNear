@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Header = ({ onSearch }) => {
+const Header = () => {
+    // const [user, setUser] = useState(null);
+    // const navigate = useNavigate();
+
+    // useEffect(() => {
+    //     const user = localStorage.getItem("user");
+    //     if (user) {
+    //         try {
+    //             const parse = JSON.parse(stored);
+    //             setUser(parse);
+    //         } catch (err) {
+    //             console.error("Failed to parse user");
+    //         }
+    //     } 
+    // }, []);
+
+    // const handleProfile = () => {
+    //     if (user) {
+    //         navigate("/user-profile");
+    //     } else {
+    //         navigate("/login");
+    //     }
+    // }
+
     return (
         <div className="header">
             <Link to="/" className="link-decoration">
@@ -22,12 +45,6 @@ const Header = ({ onSearch }) => {
             </div>
 
             <div className="right-side">
-                {/* <input 
-                    type="text"
-                    placeholder="Search"
-                    onChange={(e) => onSearch?.(e.target.value)}
-                    className="search"
-                /> */}
                 <Link to="/user">
                 <img 
                     src="/profile_placeholder.jpg"
