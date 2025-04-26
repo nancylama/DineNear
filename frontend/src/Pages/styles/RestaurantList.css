@@ -61,3 +61,19 @@
     text-align: center;
     font-weight: bold;
 }
+
+.search-bar {
+    border-radius: 5px;
+    display: block;
+    width: 210px;
+    height: 30px;
+    border: none;
+    padding: 5px;
+
+}
+
+.search-cont {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 100px;
+}

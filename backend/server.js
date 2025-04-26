@@ -68,6 +68,18 @@ app.get('/api/top-rated', async (req, res) => {
   }
 });
 
+app.get('/api/RuaThaiMenu', async (req, res) => {
+  const query = "SELECT * FROM menuitem WHERE restaurant_id = 'Res001'";
+
+  try {
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting menu items:", err);
+    res.status(500).send("Error");
+  }
+});
+
 app.listen(8080, () => {
   console.log("Backend running on http://localhost:8080");
 });

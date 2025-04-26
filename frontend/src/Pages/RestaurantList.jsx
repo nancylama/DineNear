@@ -12,6 +12,7 @@ const cuisines = [
 
 const RestaurantListPage = () => {
     const [topRestaurants, setTopRestaurants] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         axios
@@ -38,10 +39,21 @@ const RestaurantListPage = () => {
 
             <div className="restaurants">
                 <h2>Featured Restaurants</h2>
+                <div className="search-cont">
+                    <input 
+                        type="text"
+                        placeholder="Explore other restaurants..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="search-bar"
+                    />
+                </div>
                 <div className="grid">
-                    {topRestaurants.map((restaurant) => (
+                    {topRestaurants.filter((restaurant) =>
+                        restaurant.name.toLowerCase().includes(search.toLowerCase())
+                    ).map((restaurant) => (
                         <div className="card" key={restaurant.id}>
-                            <img src={restaurant.image_url} alt="Image of restaurant"/>
+                            <img src={restaurant.image_url} alt="Image of restaurant" />
                             <h3 className="res-name">{restaurant.name}</h3>
                             <p>Rating: {restaurant.rating}</p>
                         </div>
