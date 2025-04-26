@@ -16,9 +16,9 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.error('❌ Database connection failed:', err);
+    console.error('Database connection failed:', err);
   } else {
-    console.log('✅ Connected to Railway MySQL!');
+    console.log('Connected to Railway MySQL!');
   }
 });
 

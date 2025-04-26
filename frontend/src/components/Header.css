@@ -12,7 +12,7 @@
     gap: 2rem;
 }
 
-h1 {
+h1, h2 {
    color: #DCD1BE; 
 }
 
@@ -30,6 +30,13 @@ h1 {
     border-radius: 50%;
 }
 
-.link-dec {
+.link-decoration {
     text-decoration: none;
 }
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+

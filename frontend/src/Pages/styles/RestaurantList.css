@@ -1,0 +1,55 @@
+.restaurant-page h1 {
+    padding-top: 50px;
+    color: black;
+    text-align: center;
+}
+
+.cuisines h3 {
+    color: black;
+    text-align: center;
+    padding-top: 30px;
+    
+}
+
+.cuisine-list {
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.item img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid transparent;
+}
+
+
+.restaurants h2 {
+    color: black;
+    text-align: center;
+}
+
+.restaurants .grid {
+    color: black;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 60px;
+    margin: 30px auto;
+    padding: 0 20px;
+    max-width: 700px;
+}
+
+.card {
+    border-radius: 10px;
+    background-color: white;
+    padding: 10px;
+}
+
+.card img {
+    height: 200px;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}

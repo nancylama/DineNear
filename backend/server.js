@@ -8,7 +8,6 @@ import connection from "./database.js"
 dotenv.config();
 
 const app = express();
-const cors = require('cors');
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
@@ -46,13 +45,10 @@ app.post("/register", async (request, response) => {
       return response.send([false, "User already exists"]);
     }
 
-    // Hash the password
     const hashedPassword = await hashPassword(password);
 
-    // Insert the new user into the database with the hashed password
     await insertUser(email, hashedPassword, name, dob);
 
-    // Send a success response
     response.send([true, "User successfully registered."]);
   } catch (err) {
     console.error("Error:", err);
@@ -60,13 +56,18 @@ app.post("/register", async (request, response) => {
   }
 });
 
-app.listen(8080, () => {
-console.log("Backend running on http://localhost:8080");
+app.get('/api/top-rated', async (req, res) => {
+  const query = 'SELECT * FROM restaurant ORDER BY rating DESC LIMIT 6';
+  
+  try {
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting restaurants:", err);
+    res.status(500).send("Error");
+  }
 });
 
-app.get('/api/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
+app.listen(8080, () => {
+  console.log("Backend running on http://localhost:8080");
 });
