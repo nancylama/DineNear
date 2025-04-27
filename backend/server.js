@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
-import connection from "./database.js"; // ✅ only use "connection" consistently
+import bcrypt from "bcryptjs";
+import connection from "./database.js"; 
 
 dotenv.config();
 
@@ -91,7 +91,7 @@ app.post("/api/google-register", async (req, res) => {
 
     const user_id = await createUserId(name);
 
-    const query = 'INSERT INTO users (user_id, email, password, name, dob VALUES (?, ?, NULL, ?, NULL);';
+    const query = 'INSERT INTO users (user_id, email, password, name, dob) VALUES (?, ?, NULL, ?, NULL);';
     await connection.promise().query(query, [user_id, email, name]) 
   } catch (err) {
       console.error("Registration error:", err);
