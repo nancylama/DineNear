@@ -30,10 +30,10 @@ const UserPage = () => {
             try {
                 const response = await fetch("http://localhost:8080/api/diet-restrictions");
                 const data = await response.json();
-                console.log("Fetched diet restrictions:", data); 
+                console.log("Successfully got diet restrictions:", data); 
                 setDietRes(data);
             } catch (error) {
-                console.error("Failed to fetch diet restrictions:", error);
+                console.error("Failed to get diet restrictions:", error);
             }
         }
 
