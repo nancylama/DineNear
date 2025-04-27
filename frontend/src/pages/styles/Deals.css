@@ -4,7 +4,7 @@
   }
   
   .hero {
-    background-image: url('/path/to/your/background.jpg'); /* Your background image */
+    background-image: url('frontend/src/pages/blurred-busy-restaurant-background-free-photo.png'); /* Your background image */
     background-size: cover;
     background-position: center;
     padding: 100px 0;

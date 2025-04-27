@@ -3,17 +3,10 @@ import "./styles/RestaurantList.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-const cuisines = [
-    { name: "Italian", img: "/italian-food.jpg" },
-    { name: "Japanese", img: "/japanese-food.webp" },
-    { name: "Mexican", img: "/mexican-food.jpeg" },
-    { name: "Greek", img: "/greek-food.webp" },
-    { name: "Indian", img: "/indian-food.jpg" },
-]
-
 const RestaurantListPage = () => {
     const [topRestaurants, setTopRestaurants] = useState([]);
     const [search, setSearch] = useState("");
+    const [cuisines, setCuisines] = useState([]);
 
     useEffect(() => {
         axios
@@ -22,6 +15,13 @@ const RestaurantListPage = () => {
           .catch((err) => console.error("Error:", err)); 
       }, []);
 
+    useEffect(() => {
+    axios
+        .get("http://localhost:8080/api/cuisine") 
+        .then((res) => setCuisines(res.data))
+        .catch((err) => console.error("Error:", err)); 
+    }, []);
+
     return (
         <div className="restaurant-page">
             <h1>RESTAURANTS</h1>
@@ -29,9 +29,9 @@ const RestaurantListPage = () => {
             <div className="cuisines">
                 <h3>Explore different cuisines</h3>
                 <div className="cuisine-list">
-                    {cuisines.map((cuisine, index) => (
-                        <div className="item" key={index}>
-                            <img src={cuisine.img} alt={cuisine.name} />
+                    {cuisines.map((cuisine) => (
+                        <div className="item" key={cuisine.cuisine_id}>
+                            <img src={cuisine.image_path} alt={cuisine.name} />
                             <p>{cuisine.name}</p>
                         </div>
                     ))}

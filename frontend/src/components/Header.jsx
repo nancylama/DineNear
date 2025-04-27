@@ -51,6 +51,9 @@ const Header = () => {
                 <Link to="/restaurant-info" className="link-decoration">
                     <h2>Info</h2>
                 </Link>
+                <Link to="/reviews" className="link-decoration">
+                    <h2>Reviews</h2>
+                </Link>
             </div>
 
             <div className="right-side" onClick={handleProfile} style={{ cursor: "pointer" }}>
