@@ -42,16 +42,16 @@ const DealsPage = () => {
       </div>
 
     <section className="deals-container">
-  {filteredDeals.map((deal) => (
-    <div key={deal.deal_id} className="deal-card">
-      <p>{deal.description}</p>
-      <p><strong>at</strong> {deal.restaurant}</p>
-      <Link to="/restaurant-info" className="link-dec">
-        <button className="learn-more-btn">Learn More</button>
-      </Link>
-    </div>
-  ))}
-</section>
+      {filteredDeals.map((deal) => (
+        <div key={deal.deal_id} className="deal-card">
+          <p>{deal.description}</p>
+          <p><strong>at</strong> {deal.restaurant}</p>
+          <Link to="/restaurant-info" className="link-dec">
+            <button className="learn-more-btn">Learn More</button>
+          </Link>
+        </div>
+      ))}
+    </section>
 
     </div>
   );
