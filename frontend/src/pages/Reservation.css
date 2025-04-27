@@ -1,0 +1,178 @@
+.reservation-page {
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #5c3d2e;
+  padding: 1.5rem 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: white;
+  font-weight: bold;
+}
+
+.avatar {
+  width: 25px;
+  height: 25px;
+  background: white;
+  border-radius: 50%;
+}
+
+.restaurant-banner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.main-content {
+  display: flex;
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.left-column {
+  flex: 3;
+}
+
+.right-column {
+  flex: 1;
+}
+
+.restaurant-meta {
+  color: #333;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.description {
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+.reservation-form-box {
+  background: #f4eee3;
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+.reservation-form-box h2 {
+  margin-bottom: 1rem;
+}
+
+form .form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+form input,
+form select {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.time-slots {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.time-slots button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background: #5c3d2e;
+  color: white;
+  cursor: pointer;
+}
+
+.submit-btn {
+  background: #5c3d2e;
+  color: white;
+  padding: 0.8rem;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.right-column {
+  padding-top: 1rem;
+}
+
+.dish-card {
+  display: flex;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+  border-radius: 8px;
+  margin-bottom: 0.8rem;
+  align-items: center;
+}
+
+.dish-img {
+  width: 50px;
+  height: 50px;
+  background: #ccc;
+  border-radius: 6px;
+}
+
+.dish-info p {
+  font-size: 0.8rem;
+  color: #444;
+  margin: 0.2rem 0 0;
+}
+
+.review {
+  background: #fff;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.stars {
+  font-size: 1rem;
+  color: gold;
+  margin-bottom: 0.3rem;
+}
+
+.review-btn {
+  background: #5c3d2e;
+  color: white;
+  padding: 0.6rem;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+

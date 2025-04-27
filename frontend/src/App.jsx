@@ -7,7 +7,6 @@ import LoginPage from './Pages/Login';
 import MenuPage from './Pages/Menu';
 import PaymentPage from './Pages/Payment';
 import ReservationPage from './Pages/Reservations';
-import RestaurantInfoPage from './Pages/RestaurantInfo';
 import RestaurantListPage from './Pages/RestaurantList';
 import UserPage from './Pages/User';
 import ReviewsPage from './Pages/Reviews';
@@ -29,6 +28,9 @@ function App() {
         <Route path="/user-profile" element={<UserPage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
         <Route path="/restaurant-info" element={<RestaurantInfoPage />} />
+        <Route path="/reservation" element={<Reservation />} />
+        <Route path="/restaurant" element={<RestaurantInfo />} />
+        <Route path="/order" element={<OrderPage />} />
       </Routes>
     </div>
   );

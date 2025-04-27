@@ -2,12 +2,12 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-import connection from "./database.js"
-
+import connection from "./database.js"; // ✅ only use "connection" consistently
 
 dotenv.config();
 
 const app = express();
+
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
@@ -29,6 +29,34 @@ async function createUserId(name) {
   return user_id;
 }
 
+// Connect to DB
+connection.connect((err) => {
+  if (err) {
+    console.error("Database connection failed:", err);
+    return;
+  }
+  console.log("Connected to MySQL database!");
+});
+
+// Reservation API
+app.post("/api/reservations", (req, res) => {
+  const { people, date, time, fname, lname, phone, email } = req.body;
+
+  const sql = `
+    INSERT INTO reservations (people, date, time, fname, lname, phone, email)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  connection.query(sql, [people, date, time, fname, lname, phone, email], (err, result) => {
+    if (err) {
+      console.error("Error saving reservation:", err);
+      return res.status(500).json({ message: "Reservation failed" });
+    }
+    res.json({ message: "Reservation confirmed!" });
+  });
+});
+
+// Helper functions
 async function checkUserExists(email) {
   const query = "SELECT * FROM users WHERE email = ?";
   const [results] = await connection.promise().query(query, [email]);
@@ -54,6 +82,7 @@ async function insertUser(user_id, email, password, name, dob) {
   }
 }
 
+// Register API
 app.post("/register", async (req, res) => {
   const { email, password, name, dob } = req.body;
 
@@ -75,9 +104,10 @@ app.post("/register", async (req, res) => {
   }
 });
 
+// Top Rated Restaurants
 app.get('/api/top-rated', async (req, res) => {
   const query = 'SELECT * FROM restaurant ORDER BY rating DESC LIMIT 6';
-  
+
   try {
     const [results] = await connection.promise().query(query);
     res.json(results);
@@ -87,6 +117,7 @@ app.get('/api/top-rated', async (req, res) => {
   }
 });
 
+// Specific Menu
 app.get('/api/RuaThaiMenu', async (req, res) => {
   const query = "SELECT * FROM menuitem WHERE restaurant_id = 'Res001'";
 
