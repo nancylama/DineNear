@@ -27,6 +27,7 @@
     display: flex;
     align-items: flex-start;
     gap: 20px;
+    position: relative;
 }
 
 .menu-card img {
@@ -50,4 +51,40 @@
     justify-content: space-between;
     align-items: center;
     gap: 20px;
+}
+
+.add {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    width: 40px;
+    bottom: 10px;
+    right: 10px;
+}
+
+.cart {
+    padding-bottom: 100px;
+}
+
+.cart-contents h2 {
+    color: black;
+}
+
+.cart {
+    display: flex;
+    justify-self: center;
+    margin-top: 20px;
+}
+
+.cart-contents {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+.cart .ul {
+    list-style-type: none;
 }
