@@ -177,7 +177,7 @@ app.get('/api/deals', async (req,res)=> {
   try{
   const query = "SELECT * FROM deal";
   const [results] = await connection.promise().query(query);
-  res.join(results);
+  res.json(results);
   } catch (err){
     console.error('Error getting deals:', err);
     res.status(500).send ([false, 'Error']);
