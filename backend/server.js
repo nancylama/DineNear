@@ -172,6 +172,18 @@ app.post('/api/reviews', async (req, res) => {
   }
 });
 
+//Deals 
+app.get('/api/deals', async (req,res)=> {
+  try{
+  const query = "SELECT * FROM deal";
+  const [results] = await connection.promise().query(query);
+  res.join(results);
+  } catch (err){
+    console.error('Error getting deals:', err);
+    res.status(500).send ([false, 'Error']);
+  }
+});
+
 // Specific Menu
 app.get('/api/RuaThaiMenu', async (req, res) => {
   const query = "SELECT * FROM menuitem WHERE restaurant_id = 'Res001'";
