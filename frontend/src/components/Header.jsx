@@ -1,30 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
-    // const [user, setUser] = useState(null);
-    // const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const user = localStorage.getItem("user");
-    //     if (user) {
-    //         try {
-    //             const parse = JSON.parse(stored);
-    //             setUser(parse);
-    //         } catch (err) {
-    //             console.error("Failed to parse user");
-    //         }
-    //     } 
-    // }, []);
+    useEffect(() => {
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+            try {
+                const parsed = JSON.parse(storedUser);
+                setUser(parsed);
+            } catch (err) {
+                console.error("Failed to parse user:", err);
+            }
+        }
+    }, []);
 
-    // const handleProfile = () => {
-    //     if (user) {
-    //         navigate("/user-profile");
-    //     } else {
-    //         navigate("/login");
-    //     }
-    // }
+    const handleProfile = () => {
+        if (user) {
+            navigate("/user-profile");
+        } else {
+            navigate("/login");
+        }
+    };
 
     return (
         <div className="header">
@@ -44,14 +44,21 @@ const Header = () => {
                 </Link>
             </div>
 
-            <div className="right-side">
-                <Link to="/user">
-                <img 
-                    src="/profile_placeholder.jpg"
-                    alt="Placeholder profile picture"
-                    className="profile-pic"
-                />
-                </Link>
+            <div className="right-side" onClick={handleProfile} style={{ cursor: "pointer" }}>
+                {/* ✨ If user logged in, show their Google picture. Else show placeholder */}
+                {user ? (
+                    <img 
+                        src={user.picture}
+                        alt="User profile"
+                        className="profile-pic"
+                    />
+                ) : (
+                    <img 
+                        src="/profile_placeholder.jpg"
+                        alt="Placeholder profile"
+                        className="profile-pic"
+                    />
+                )}
             </div>
         </div>
     );

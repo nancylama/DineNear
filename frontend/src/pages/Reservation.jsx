@@ -25,10 +25,7 @@ const Reservation = () => {
 
   return (
     <div className="reservation-page">
-      <div className="header">
-        <div className="logo">DineNear</div>
-        <div className="avatar" />
-    </div>
+      
 
     <img
         className="restaurant-banner"
@@ -39,7 +36,7 @@ const Reservation = () => {
 
       <div className="main-content">
         <div className="left-column">
-          <h1>Restaurant Name</h1>
+          <h1 id = "reserv-h1">Restaurant Name</h1>
           <div className="restaurant-meta">
             <span>⭐⭐⭐⭐⭐&nbsp; <b>4.8</b> </span>
             <span> &nbsp; | &nbsp; <b>315 Reviews</b></span>

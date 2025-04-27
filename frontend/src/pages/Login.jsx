@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-// test update
+import { useNavigate } from "react-router-dom";
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async (credentialResponse) => {
     const token = credentialResponse.credential;
@@ -12,7 +14,14 @@ const LoginPage = () => {
     console.log("Google User Info:", userInfo);
 
     try {
-      const res = await fetch("http://localhost:8080/api/google-register", {
+      // Save to localStorage
+      localStorage.setItem("user", JSON.stringify(userInfo));
+
+      // Redirect
+      navigate("/user-profile");
+
+      // Optional backend call (if you still want)
+      await fetch("http://localhost:8080/api/google-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -21,8 +30,6 @@ const LoginPage = () => {
           picture: userInfo.picture,
         }),
       });
-      const data = await res.json();
-      alert(data.message);
     } catch (err) {
       console.error("Google login failed:", err);
     }
@@ -30,15 +37,15 @@ const LoginPage = () => {
 
   const handleManualLogin = (e) => {
     e.preventDefault();
-    // Here you'd send email/password to backend (if you have /login route)
-    alert("Manual login clicked");
+    const manualUser = { name: "Manual User", email };
+    localStorage.setItem("user", JSON.stringify(manualUser));
+    navigate("/user-profile");
   };
 
   return (
     <div>
       <h2>Login</h2>
 
-      {/* Google Login */}
       <GoogleLogin
         onSuccess={handleGoogleLogin}
         onError={() => alert("Google login failed")}
@@ -46,7 +53,6 @@ const LoginPage = () => {
 
       <p>or continue with email</p>
 
-      {/* Manual login form */}
       <form onSubmit={handleManualLogin}>
         <input
           type="email"

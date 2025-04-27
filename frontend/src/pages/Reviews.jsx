@@ -30,7 +30,7 @@ const ReviewsPage = () => {
           rating: newReview.rating,
           comment: newReview.comment,
           user_id: newReview.user_id, 
-          restaurant_id: newReview.restaurant_id;
+          restaurant_id: newReview.restaurant_id,
         })
       });
       setNewReview({ rating: 5, comment: "" }); // Clear form

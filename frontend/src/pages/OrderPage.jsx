@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./OrderPage.css";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 const OrderPage = () => {
   const [user, setUser] = useState(null);
 
+  //  When page loads, check if user exists in localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
+
   const handleLoginSuccess = (credentialResponse) => {
-    const decoded = jwt_decode(credentialResponse.credential);
-    console.log(decoded); // see user info in console
+    const decoded = jwtDecode(credentialResponse.credential);
+    console.log(decoded); 
     setUser(decoded);
-    alert("Google login success!");
+
+    // Save to localStorage
+    localStorage.setItem("user", JSON.stringify(decoded));
+
+    alert(`Welcome ${decoded.name}`);
   };
 
   const handleLoginFailure = () => {
@@ -21,33 +33,33 @@ const OrderPage = () => {
   const handleLogout = () => {
     googleLogout();
     setUser(null);
+
+    // Clear from localStorage
+    localStorage.removeItem("user");
+
+    alert("Logged out!");
   };
 
   return (
     <>
-      {/* Header */}
-      <div className="order-header">
-        <div className="logo-header">DineNear</div>
-
-        {/* Show user profile pic if logged in */}
-        <div className="circle-avatar">
-          {user ? (
-            <img
-              src={user.picture}
-              alt="User Avatar"
-              onClick={handleLogout}
-              style={{ borderRadius: "50%", width: "40px", height: "40px", cursor: "pointer" }}
-            />
-          ) : (
-            <div className="default-avatar"></div>
-          )}
+      {/* Visual indicator if logged in */}
+      {user && (
+        <div className="user-banner">
+          <p>Logged in as <strong>{user.name}</strong></p>
+          <img
+            src={user.picture}
+            alt="User Avatar"
+            style={{ width: "50px", borderRadius: "50%", marginTop: "10px" }}
+          />
+          <button onClick={handleLogout} style={{ marginLeft: "10px" }}>
+            Logout
+          </button>
         </div>
-      </div>
+      )}
 
       {/* Page Content */}
       <div className="order-page-wrapper">
         <div className="order-page">
-
           {/* LEFT SIDE */}
           <div className="order-left">
             {/* Sign in Section */}
@@ -56,19 +68,12 @@ const OrderPage = () => {
               <div className="signin-box">
                 <div className="google-section">
                   
-                  {/* IF NOT LOGGED IN, SHOW GoogleLogin button */}
+                  {/* Show GoogleLogin if not logged in */}
                   {!user && (
                     <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                      const decoded = jwtDecode(credentialResponse.credential);
-                      console.log(decoded);
-                      alert(`Welcome ${decoded.name}`);
-                    }}
-                    onError={() => {
-                      console.log('Login Failed');
-                      alert('Google login failed.');
-                    }}
-                  />
+                      onSuccess={handleLoginSuccess}
+                      onError={handleLoginFailure}
+                    />
                   )}
 
                   <p className="divider-text">or continue with email</p>
@@ -135,7 +140,6 @@ const OrderPage = () => {
               <p className="total">Total Price: <span>$$</span></p>
             </div>
           </div>
-
         </div>
       </div>
     </>

@@ -6,11 +6,15 @@ import DealsPage from './pages/Deals';
 import LoginPage from './pages/Login';
 import MenuPage from './pages/Menu';
 import PaymentPage from './pages/Payment';
-import ReservationPage from './pages/Reservations';
+import Reservation from './pages/Reservation';
 import RestaurantListPage from './pages/RestaurantList';
 import UserPage from './pages/User';
 import ReviewsPage from './pages/Reviews'
 import RegisterPage from './pages/Register';
+import RestaurantInfo from './pages/RestaurantInfo';
+import OrderPage from './pages/OrderPage';
+
+
 
 function App() {
   return (
@@ -23,12 +27,11 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/reservations" element={<ReservationPage />} />
         <Route path="/restaurant-list" element={<RestaurantListPage />} />
         <Route path="/user-profile" element={<UserPage />} />
         <Route path="/reviews" element={<ReviewsPage />} />
-        <Route path="/restaurant-info" element={<RestaurantInfoPage />} />
-        <Route path="/reservation" element={<Reservation />} />
+        <Route path="/restaurant-info" element={<RestaurantInfo />} />
+        <Route path="/reservations" element={<Reservation />} />
         <Route path="/restaurant" element={<RestaurantInfo />} />
         <Route path="/order" element={<OrderPage />} />
       </Routes>

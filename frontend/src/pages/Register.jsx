@@ -1,59 +1,68 @@
 import React, { useState } from "react";
-// import { registerUser } from "../api/userAPI"; 
-import { GoogleLogin } from "@react-oauth/google"; 
-import { jwtDecode } from "jwt-decode"; 
-//test
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");
   const [dob, setDob] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await registerUser({ fullName, dob, email, password });
-  };
-
-  // google register oauth
   const handleGoogleRegister = async (credentialResponse) => {
     const token = credentialResponse.credential;
     const userInfo = jwtDecode(token);
     console.log("Google User Info:", userInfo);
 
     try {
-      const res = await fetch("http://localhost:8080/api/google-register", {
+      // Save to localStorage
+      localStorage.setItem("user", JSON.stringify(userInfo));
+
+      // Redirect
+      navigate("/user-profile");
+
+      // Optional backend call (if you still want)
+      await fetch("http://localhost:8080/api/google-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: userInfo.email,
           name: userInfo.name,
-          picture: userInfo.picture, 
+          picture: userInfo.picture,
         }),
       });
-
-      const data = await res.json();
-      alert(data.message);
     } catch (err) {
       console.error("Google register failed:", err);
     }
+  };
+
+  const handleManualRegister = (e) => {
+    e.preventDefault();
+
+    const newUser = {
+      name: fullName,
+      email,
+      dob,
+    };
+
+    localStorage.setItem("user", JSON.stringify(newUser));
+    alert("Manual registration successful!");
+    navigate("/user-profile");
   };
 
   return (
     <div>
       <h2>Register</h2>
 
-      {/* google login section */}
       <GoogleLogin
         onSuccess={handleGoogleRegister}
-        onError={() => {
-          alert("Google register failed");
-        }}
+        onError={() => alert("Google register failed")}
       />
 
       <p>or register manually:</p>
 
-      {/*  manual registration form */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleManualRegister}>
         <input
           type="text"
           placeholder="Full Name"
