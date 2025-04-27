@@ -4,7 +4,7 @@ import "./styles/Reviews.css";
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [newReview, setNewReview] = useState({ rating: 5, comment: "" });
+  const [newReview, setNewReview] = useState({ restaurant_id: "", rating: 5, comment: "" });
 
   useEffect(() => {
     fetchReviews();
@@ -22,17 +22,18 @@ const ReviewsPage = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+
     try {
-      await fetch('http://localhost:3000/api/reviews', {
+      await fetch('http://localhost:8080/api/reviews', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           rating: newReview.rating,
           comment: newReview.comment,
-          user_id: newReview.user_id, 
-          restaurant_id: newReview.restaurant_id,
+          user_id: JSON.parse(localStorage.getItem("user")).user_id,
         })
       });
+
       setNewReview({ rating: 5, comment: "" }); // Clear form
       setShowForm(false); // Hide form after submission
       fetchReviews(); // Reload reviews
@@ -49,7 +50,7 @@ const ReviewsPage = () => {
 
       <div className="submit-review">
         <button onClick={() => setShowForm(!showForm)}>
-          {showForm ? "Cancel" : "Submit Review"}
+          {showForm ? "Cancel" : "Write a review"}
         </button>
 
         {showForm && (
@@ -88,8 +89,7 @@ const ReviewsPage = () => {
             </div>
             <p>{review.comment}</p>
             <div className="profile">
-              <img src={review.profile_pic_url} alt="Profile" />
-              <div className="username">{review.username}</div>
+              <div className="username">{review.name}</div>
             </div>
           </div>
         ))}

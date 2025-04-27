@@ -19,8 +19,7 @@ body {
 }
 
 .hero h1 {
-  font-size: 4rem;
-  color: #223437;
+  color: black;
   font-weight: bold;
 }
 
@@ -71,7 +70,6 @@ body {
 .submit-review button {
   background-color: #4f180b;
   color: white;
-  padding: 10px 20px;
   border: none;
   border-radius: 15px;
   cursor: pointer;

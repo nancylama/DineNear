@@ -42,10 +42,7 @@ connection.connect((err) => {
 app.post("/api/reservations", (req, res) => {
   const { people, date, time, fname, lname, phone, email } = req.body;
 
-  const sql = `
-    INSERT INTO reservations (people, date, time, fname, lname, phone, email)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
-  `;
+  const sql = 'INSERT INTO reservations (people, date, time, fname, lname, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
   connection.query(sql, [people, date, time, fname, lname, phone, email], (err, result) => {
     if (err) {
@@ -136,6 +133,7 @@ app.get('/api/top-rated', async (req, res) => {
   }
 });
 
+// Cuisines
 app.get('/api/cuisine', async (req, res) => {
   const query = 'SELECT name, image_path FROM cuisine;';
 
@@ -145,6 +143,32 @@ app.get('/api/cuisine', async (req, res) => {
   } catch (err) {
     console.error("Error getting restaurants:", err);
     res.status(500).send([false, "Error"]);
+  }
+});
+
+// Reviews 
+app.get('/api/reviews', async (req, res) => {
+  try {
+   const query = 'SELECT * FROM review';
+   const [results] = await connection.promise().query(query);
+   res.json(results);
+  } catch (err) {
+    console.error("Error getting reviews:", err);
+    res.status(500).send([false, "Error"]);
+  }
+});
+
+app.post('/api/reviews', async (req, res) => {
+  const { user_id, rating, comment } = req.body;
+
+  try {
+    const query = 'INSERT INTO review (user_id, rating, comment) VALUES (?, ?, ?);';
+    const [result] = await connection.promise().query(query, [user_id, rating, comment]);
+
+    res.status(201).json({ review_id: result.insertId });
+  } catch (err) {
+    console.error("Error inserting review:", err);
+    return res.status(500).json({ error: "Error inserting review" });
   }
 });
 
