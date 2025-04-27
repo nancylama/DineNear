@@ -18,9 +18,9 @@ const UserPage = () => {
             setName(info.name);
             setEmail(info.email);
             setPicture(info.picture || "/profile_placeholder.jpg");
-            setEmail(info.phone || "");
-            setEmail(info.diet || "");
-            setEmail(info.payment || "");
+            setPhone(info.phone || "");
+            setDiet(info.diet || "");
+            setPayment(info.payment || "");
         } else {
             navigate("/login");
         }
@@ -33,14 +33,14 @@ const UserPage = () => {
             const res = await fetch("http://localhost:8080/api/update-profile", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, name, phone, diet, payment, picture }),
+                body: JSON.stringify({ email, name, phone, diet, payment }),
             });
 
-            const result = await response.json();
+            const result = await res.json();
             if (result.success) {
-                localStorage.setItem("user", JSON.stringify({ email, name, phone, diet, payment, picture }));
+                localStorage.setItem("user", JSON.stringify({ email, name, phone, diet, payment }));
                 alert("Profile updated.");
-                } else {
+            } else {
                 alert("Error updating profile.");
                 }
         } catch (err) {

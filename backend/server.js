@@ -225,6 +225,31 @@ app.post('/api/order-details', async (req, res) => {
   }
 });
 
+// Update profile
+app.put("/api/update-profile", async (req, res) => {
+  const {email, name, phone, diet, payment } = req.body;
+
+  if (!email || !name) {
+      return res.status(400).json({ success: false, message: "Missing required fields" });
+  }
+
+  try {
+      const [result] = await connection.promise().query(
+          'UPDATE users SET name = ?, phone = ?, diet = ?, payment = ? WHERE email = ?',
+          [name, phone, diet, payment, email]
+      );
+
+      if (result.affectedRows === 0) {
+          return res.status(404).json({ success: false, message: "User not found" });
+      }
+
+      res.json({ success: true, message: "Profile updated successfully" });
+  } catch (err) {
+      console.error("Error updating profile:", err);
+      res.status(500).json({ success: false, message: "Error updating profile" });
+  }
+});
+
 app.listen(8080, () => {
   console.log("Backend running on http://localhost:8080");
 });
