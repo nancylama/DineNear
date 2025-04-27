@@ -16,7 +16,7 @@ export const registerUser = async (userData, setLoading, setError) => {
         setError(response.data[1]);
         return false;
       }
-  
+      
       return true;
     } catch (error) {
       console.error("Error occurred:", error);
