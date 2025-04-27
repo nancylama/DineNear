@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles/Deals.css";
+import { Link } from "react-router-dom";
 
 const DealsPage = () => {
   const [deals, setDeals] = useState([]);
