@@ -4,12 +4,12 @@ import { Route, Routes} from 'react-router-dom';
 import HomePage from "./pages/Home";
 import DealsPage from './pages/Deals';
 import LoginPage from './pages/Login';
-import MenuPage from './pages/Menu';
+import MenuPage from './Pages/Menu';
 import PaymentPage from './pages/Payment';
 import Reservation from './pages/Reservation';
 import RestaurantListPage from './pages/RestaurantList';
 import UserPage from './pages/User';
-import ReviewsPage from './pages/Reviews'
+import ReviewsPage from './Pages/Reviews'
 import RegisterPage from './pages/Register';
 import RestaurantInfo from './pages/RestaurantInfo';
 import OrderPage from './pages/OrderPage';
