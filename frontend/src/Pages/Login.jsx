@@ -1,95 +1,71 @@
-import React from "react";
-
+import React, { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+// test update
 const LoginPage = () => {
-    return (
-        <h1>Craving Something?</h1>
-    
-        <div class="container">
-            <form action="/action_page.php">
-              <label for="usrname">Email</label>
-              <input type="text" id="email" name="email" required>
-      
-              <label for="psw">Password</label>
-              <input type="password" id="psw" name="psw" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
-          
-              <input type="submit" value="Submit">
-            </form>
-        </div>
-      
-        <div id="message">
-            <h3>Password must contain the following:</h3>
-            <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
-            <p id="capital" class="invalid">A <b>capital (uppercase)</b> letter</p>
-            <p id="number" class="invalid">A <b>number</b></p>
-            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
-        </div>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-        <div class="others" style="background-color:#DCD1BE">
-            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn"><a href= "homepage.html">Register</a></button>
-            <span class="psw"><a href="https://www.google.com/">Forgot Password?</a></span>
-        </div>
-       
-    
-        <script>
-            var myInput = document.getElementById("psw");
-            var letter = document.getElementById("letter");
-            var capital = document.getElementById("capital");
-            var number = document.getElementById("number");
-            var length = document.getElementById("length");
-        
-            // When the user clicks on the password field, show the message box
-            myInput.onfocus = function() {
-              document.getElementById("message").style.display = "block";
-            }
-        
-            // When the user clicks outside of the password field, hide the message box
-            myInput.onblur = function() {
-              document.getElementById("message").style.display = "none";
-            }
-        
-            // When the user starts to type something inside the password field
-            myInput.onkeyup = function() {
-              // Validate lowercase letters
-              var lowerCaseLetters = /[a-z]/g;
-              if(myInput.value.match(lowerCaseLetters)) {
-                letter.classList.remove("invalid");
-                letter.classList.add("valid");
-              } else {
-                letter.classList.remove("valid");
-                letter.classList.add("invalid");
-              }
-        
-              // Validate capital letters
-              var upperCaseLetters = /[A-Z]/g;
-              if(myInput.value.match(upperCaseLetters)) {
-                capital.classList.remove("invalid");
-                capital.classList.add("valid");
-              } else {
-                capital.classList.remove("valid");
-                capital.classList.add("invalid");
-              }
-        
-              // Validate numbers
-              var numbers = /[0-9]/g;
-              if(myInput.value.match(numbers)) {
-                number.classList.remove("invalid");
-                number.classList.add("valid");
-              } else {
-                number.classList.remove("valid");
-                number.classList.add("invalid");
-              }
-        
-              // Validate length
-              if(myInput.value.length >= 8) {
-                length.classList.remove("invalid");
-                length.classList.add("valid");
-              } else {
-                length.classList.remove("valid");
-                length.classList.add("invalid");
-              }
-            }
-        </script>
-    );
+  const handleGoogleLogin = async (credentialResponse) => {
+    const token = credentialResponse.credential;
+    const userInfo = jwtDecode(token);
+    console.log("Google User Info:", userInfo);
+
+    try {
+      const res = await fetch("http://localhost:8080/api/google-register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: userInfo.email,
+          name: userInfo.name,
+          picture: userInfo.picture,
+        }),
+      });
+      const data = await res.json();
+      alert(data.message);
+    } catch (err) {
+      console.error("Google login failed:", err);
+    }
+  };
+
+  const handleManualLogin = (e) => {
+    e.preventDefault();
+    // Here you'd send email/password to backend (if you have /login route)
+    alert("Manual login clicked");
+  };
+
+  return (
+    <div>
+      <h2>Login</h2>
+
+      {/* Google Login */}
+      <GoogleLogin
+        onSuccess={handleGoogleLogin}
+        onError={() => alert("Google login failed")}
+      />
+
+      <p>or continue with email</p>
+
+      {/* Manual login form */}
+      <form onSubmit={handleManualLogin}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
 };
 
 export default LoginPage;

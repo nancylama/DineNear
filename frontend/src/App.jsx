@@ -1,16 +1,16 @@
 import Header from './components/Header';
 import React from 'react';
 import { Route, Routes} from 'react-router-dom';
-import HomePage from "./Pages/Home";
-import DealsPage from './Pages/Deals';
-import LoginPage from './Pages/Login';
-import MenuPage from './Pages/Menu';
-import PaymentPage from './Pages/Payment';
-import ReservationPage from './Pages/Reservations';
-import RestaurantListPage from './Pages/RestaurantList';
-import UserPage from './Pages/User';
-import ReviewsPage from './Pages/Reviews';
-import RegisterPage from './Pages/Register';
+import HomePage from "./pages/Home";
+import DealsPage from './pages/Deals';
+import LoginPage from './pages/Login';
+import MenuPage from './pages/Menu';
+import PaymentPage from './pages/Payment';
+import ReservationPage from './pages/Reservations';
+import RestaurantListPage from './pages/RestaurantList';
+import UserPage from './pages/User';
+import ReviewsPage from './pages/Reviews'
+import RegisterPage from './pages/Register';
 
 function App() {
   return (
