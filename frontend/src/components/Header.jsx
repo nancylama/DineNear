@@ -42,13 +42,13 @@ const Header = () => {
                 <Link to="/deals" className="link-decoration">
                     <h2>Deals</h2>
                 </Link>
-                <Link to="/deals" className="link-decoration">
+                <Link to="/menu" className="link-decoration">
                     <h2>Menus</h2>
                 </Link>
-                <Link to="/deals" className="link-decoration">
+                <Link to="/payment" className="link-decoration">
                     <h2>Payments</h2>
                 </Link>
-                <Link to="/deals" className="link-decoration">
+                <Link to="/restaurant-info" className="link-decoration">
                     <h2>Info</h2>
                 </Link>
             </div>
