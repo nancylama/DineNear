@@ -9,6 +9,7 @@ const UserPage = () => {
     const [phone, setPhone] = useState("");
     const [diet, setDiet] = useState("");
     const [payment, setPayment] = useState("");
+    const [dietRes, setDietRes] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,6 +25,20 @@ const UserPage = () => {
         } else {
             navigate("/login");
         }
+
+        async function getDietRes() {
+            try {
+                const response = await fetch("http://localhost:8080/api/diet-restrictions");
+                const data = await response.json();
+                console.log("Fetched diet restrictions:", data); 
+                setDietRes(data);
+            } catch (error) {
+                console.error("Failed to fetch diet restrictions:", error);
+            }
+        }
+
+        getDietRes();
+        
     }, [navigate]);
 
     const submit = async (e) => {
@@ -53,7 +68,6 @@ const UserPage = () => {
         localStorage.removeItem("user");
         navigate("/login");
     }
-
 
     return (
         <div className="profile-page">
@@ -92,12 +106,17 @@ const UserPage = () => {
                 </div>
                 <div>
                     <label>Dietary Restrictions</label>
-                    <input
-                        type="text"
+                    <select
                         value={diet}
                         onChange={(e) => setDiet(e.target.value)}
-                        placeholder="e.g. Halal, Gluten-free"
-                    />
+                    >
+                        <option value="">Select a diet restriction</option>
+                        {dietRes.map((restriction) => (
+                            <option key={restriction.diet_id} value={restriction.diet_id}>
+                                {restriction.diet_type}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div>
                     <label>Payment Method</label>

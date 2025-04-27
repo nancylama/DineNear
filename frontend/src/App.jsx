@@ -8,7 +8,7 @@ import MenuPage from './Pages/Menu';
 import PaymentPage from './pages/Payment';
 import Reservation from './pages/Reservation';
 import RestaurantListPage from './pages/RestaurantList';
-import UserPage from './pages/User';
+import UserPage from './Pages/User';
 import ReviewsPage from './Pages/Reviews'
 import RegisterPage from './pages/Register';
 import RestaurantInfo from './pages/RestaurantInfo';
@@ -21,7 +21,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/deals" element={<DealsPage />} />
+        {/* <Route path="/deals" element={<DealsPage />} /> */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/menu" element={<MenuPage />} />

@@ -246,7 +246,19 @@ app.put("/api/update-profile", async (req, res) => {
       res.json({ success: true, message: "Profile updated successfully" });
   } catch (err) {
       console.error("Error updating profile:", err);
-      res.status(500).json({ success: false, message: "Error updating profile" });
+      return res.status(500).json({ error: "Error updating profile" });
+  }
+});
+
+// Diet restrictions
+app.get('/api/diet-restrictions', async (req, res) => {
+  try {
+    const query = 'SELECT * FROM dietrestriction;';
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting diet restrictions:", err);
+    return res.status(500).json({ error: "Error getting diet restrictions" });
   }
 });
 
