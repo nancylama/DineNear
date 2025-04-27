@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./styles/RestaurantList.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const cuisines = [
     { name: "Italian", img: "/italian-food.jpg" },
@@ -52,11 +53,13 @@ const RestaurantListPage = () => {
                     {topRestaurants.filter((restaurant) =>
                         restaurant.name.toLowerCase().includes(search.toLowerCase())
                     ).map((restaurant) => (
-                        <div className="card" key={restaurant.id}>
-                            <img src={restaurant.image_url} alt="Image of restaurant" />
-                            <h3 className="res-name">{restaurant.name}</h3>
-                            <p>Rating: {restaurant.rating}</p>
-                        </div>
+                        <Link to="/restaurant-info">
+                            <div className="card" key={restaurant.id}>
+                                <img src={restaurant.image_url} alt="Image of restaurant" />
+                                <h3 className="res-name">{restaurant.name}</h3>
+                                <p>Rating: {restaurant.rating}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             </div>
