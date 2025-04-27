@@ -129,7 +129,7 @@ app.get('/api/top-rated', async (req, res) => {
     res.json(results);
   } catch (err) {
     console.error("Error getting restaurants:", err);
-    res.status(500).send([false, "Error"]);
+    res.status(500).send("Error");
   }
 });
 
@@ -142,7 +142,7 @@ app.get('/api/cuisine', async (req, res) => {
     res.json(results);
   } catch (err) {
     console.error("Error getting restaurants:", err);
-    res.status(500).send([false, "Error"]);
+    res.status(500).send("Error");
   }
 });
 
@@ -154,7 +154,7 @@ app.get('/api/reviews', async (req, res) => {
    res.json(results);
   } catch (err) {
     console.error("Error getting reviews:", err);
-    res.status(500).send([false, "Error"]);
+    res.status(500).send("Error");
   }
 });
 
@@ -181,7 +181,35 @@ app.get('/api/RuaThaiMenu', async (req, res) => {
     res.json(results);
   } catch (err) {
     console.error("Error getting menu items:", err);
-    res.status(500).send([false, "Error"]);
+    res.status(500).send("Error");
+  }
+});
+
+// Order Details
+app.get('/api/order-details', async (req, res) => {
+  try {
+   const query = 'SELECT * FROM orderdetails';
+   const [results] = await connection.promise().query(query);
+   res.json(results);
+  } catch (err) {
+    console.error("Error getting order details:", err);
+    res.status(500).send("Error");
+  }
+});
+
+app.post('/api/order-details', async (req, res) => {
+  const { order_id, items } = req.body;
+
+  try {
+    for (let menu_item_id of items) {
+      const query = 'INSERT INTO orderdetails (quantity, order_id, menu_item_id) VALUES (1, ?, ?);';
+      await connection.promise().query(query, [order_id, menu_item_id]);
+    }
+
+    res.status(201).json({ success: true, message: "Order saved"});
+  } catch (err) {
+    console.error("Error inserting order:", err);
+    return res.status(500).json({ error: "Error inserting order" });
   }
 });
 

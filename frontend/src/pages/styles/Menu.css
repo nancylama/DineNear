@@ -84,3 +84,7 @@
     text-align: center;
     width: 300px;
 }
+
+.cart .checkout-button {
+    cursor: pointer;
+}

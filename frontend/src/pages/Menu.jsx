@@ -20,6 +20,18 @@ const MenuPage = () => {
         console.log("User cart:", updatedCart)
     }
 
+    const checkout = async () => {
+        try {
+            const items = cart.map((item) => item.menu_item_id)
+
+            await axios.post("http://localhost:8080/api/order-details", { order_id : `O001`, items });
+            setCart([]);
+            alert("Order saved");
+        } catch (err) {
+            console.error("Order failed:", err);
+        }
+    }
+
     return (
         <div className="menu-page">
             <h1>MENU</h1>
@@ -34,7 +46,7 @@ const MenuPage = () => {
 
             <div className="menu-grid">
                 {menuItems.map((item) => (
-                    <div className="menu-card" key={item.id}>
+                    <div className="menu-card" key={item.menu_item_id}>
                         <img src={item.image_url} alt="Image of menu item" />
                         <div className="info">
                             <div className="name-price">
@@ -59,11 +71,9 @@ const MenuPage = () => {
                                 </li>
                             ))}
                         </ul>
-                        <Link to="/payment">
-                            <button>
-                                Checkout
-                            </button>
-                        </Link>
+                        <button onClick={() => checkout()} className="checkout-button">
+                            Checkout
+                        </button>
                     </div>
                 )}
             </div>

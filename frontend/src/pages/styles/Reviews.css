@@ -19,6 +19,7 @@ body {
 .hero h1 {
   color: black;
   font-weight: bold;
+  font-size: 32px;
 }
 
 .reviews-container {
