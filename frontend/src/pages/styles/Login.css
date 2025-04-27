@@ -1,11 +1,23 @@
-h1 {
-    font-family: Kreon;
+.login-page h1 {
     font-size: 30px;
-    color: #4F180B;
-    padding-left: 45px;
-    padding-bottom: 25px;
     text-align: center; 
+    color: black;
+    margin-bottom: 50px;
+    margin-top: 50px;
 }
+
+.login-page h2 {
+    color: black;
+}
+
+.google-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: sccale(0.8);
+    transform-origin: top left;;
+}
+
 body {
       background-color: #DCD1BE;
 }
@@ -19,19 +31,19 @@ span.psw {
     padding: 16px;
 }
 
-input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 6px;
-    margin-bottom: 16px;
+p {
+    text-align: center;
 }
 
-input[type=submit] {
-    background-color: #04AA6D;
-    color: white;
+input[type="password"],
+input[type="email"] {
+    width: 500px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    margin: 6px auto 16px;
 }
 
 .container {

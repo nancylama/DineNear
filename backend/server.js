@@ -82,6 +82,25 @@ async function insertUser(user_id, email, password, name, dob) {
   }
 }
 
+// Register with Google
+app.post("/api/google-register", async (req, res) => {
+  const { email, name } = req.body;
+
+  try {
+    const userExists = await checkUserExists(email);
+    if (userExists) {
+      return res.send([false, "User already exists"]);
+    }
+
+    const user_id = await createUserId(name);
+
+    const query = 'INSERT INTO users (user_id, email, password, name, dob VALUES (?, ?, NULL, ?, NULL);';
+    await connection.promise().query(query, [user_id, email, name]) 
+  } catch (err) {
+      console.error("Registration error:", err);
+  }
+});
+
 // Register API
 app.post("/register", async (req, res) => {
   const { email, password, name, dob } = req.body;

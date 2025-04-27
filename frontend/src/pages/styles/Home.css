@@ -1,14 +1,13 @@
-  * { box-sizing: border-box; }
 body {
   background-color: #DCD1BE;
   margin: 0;
   font-family: Kreon; 
 }
 
-h1 {
+.home-page h1 {
     text-align: center;
     font-family: Kreon;
-    color: #4F180B; 
+    color: black; 
     padding-top: 20px; 
     padding-bottom: 20px;
 }
@@ -82,13 +81,14 @@ h1 {
   }
 }
 
-div.scroll-container {
-  background-color: #223437;
-  overflow: auto;
-  white-space: nowrap;
-  padding: 10px;
+.images {
+  display: flex;
+  flex-direction: row;
+  height: 250px;
 }
 
-div.scroll-container img {
-  padding: 10px;
+.images img {
+  height: 100%;
+  width: 33.33%;
+  object-fit: cover;
 }

@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import "./styles/Login.css";
 
 const LoginPage = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -16,9 +18,6 @@ const LoginPage = () => {
     try {
       // Save to localStorage
       localStorage.setItem("user", JSON.stringify(userInfo));
-
-      // Redirect
-      navigate("/user-profile");
 
       // Optional backend call (if you still want)
       await fetch("http://localhost:8080/api/google-register", {
@@ -33,24 +32,30 @@ const LoginPage = () => {
     } catch (err) {
       console.error("Google login failed:", err);
     }
+
+    // Redirect
+    navigate("/user-profile");
+
   };
 
   const handleManualLogin = (e) => {
     e.preventDefault();
-    const manualUser = { name: "Manual User", email };
+    const manualUser = { name, email, picture: '/profile_placeholder.jpg' };
     localStorage.setItem("user", JSON.stringify(manualUser));
     navigate("/user-profile");
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="login-page">
+      <h1>LOGIN</h1>
 
-      <GoogleLogin
-        onSuccess={handleGoogleLogin}
-        onError={() => alert("Google login failed")}
-      />
-
+      <div className="google-login">
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={() => alert("Google login failed")}
+        />
+      </div>
+      
       <p>or continue with email</p>
 
       <form onSubmit={handleManualLogin}>
@@ -68,7 +73,9 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <div className="button-cont">
+          <button type="submit">Login</button>
+        </div>
       </form>
     </div>
   );
