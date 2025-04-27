@@ -136,6 +136,18 @@ app.get('/api/top-rated', async (req, res) => {
   }
 });
 
+app.get('/api/cuisine', async (req, res) => {
+  const query = 'SELECT name, image_path FROM cuisine;';
+
+  try {
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting restaurants:", err);
+    res.status(500).send([false, "Error"]);
+  }
+});
+
 // Specific Menu
 app.get('/api/RuaThaiMenu', async (req, res) => {
   const query = "SELECT * FROM menuitem WHERE restaurant_id = 'Res001'";
