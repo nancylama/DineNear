@@ -21,13 +21,11 @@ const DealsPage = () => {
   }, []);
 
   const filteredDeals = deals.filter(deal =>
-    deal.restaurant.toLowerCase().includes(searchTerm.toLowerCase())
+    deal.restaurant_name && deal.restaurant_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
 
   return (
     <div className="deals-page">
-        <title> Deals - DineNear</title>
       <div className="hero">
         <h1>DEALS</h1>
       </div>
@@ -44,8 +42,8 @@ const DealsPage = () => {
     <section className="deals-container">
       {filteredDeals.map((deal) => (
         <div key={deal.deal_id} className="deal-card">
-          <p>{deal.description}</p>
-          <p><strong>at</strong> {deal.restaurant}</p>
+          <p>{deal.discount_details}</p>
+          <p><strong>at</strong> {deal.restaurant_name}</p>
           <Link to="/restaurant-info" className="link-dec">
             <button className="learn-more-btn">Learn More</button>
           </Link>

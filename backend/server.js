@@ -172,7 +172,7 @@ app.post('/api/reviews', async (req, res) => {
   }
 });
 
-//Deals 
+// Deals 
 app.get('/api/deals', async (req, res) => {
   try{
     const query = "SELECT * FROM deal";

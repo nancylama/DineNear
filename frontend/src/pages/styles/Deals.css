@@ -1,10 +1,9 @@
 .deals-page {
-    background-color: #fafafa;
+    background-color: #DCD1BE;
     min-height: 100vh;
   }
   
   .hero {
-    background-image: url('frontend/src/pages/blurred-busy-restaurant-background-free-photo.png');
     background-size: cover;
     background-position: center;
     padding: 100px 0;
@@ -25,7 +24,7 @@
   }
   
   .search-bar input {
-    width: 50%;
+    width: 500px;
     padding: 10px 20px;
     border-radius: 20px;
     border: 1px solid #ccc;
@@ -41,7 +40,7 @@
   }
   
   .deal-card {
-    background: #dcd1be;
+    background: white;
     border-radius: 15px;
     padding: 20px;
     width: 200px;
