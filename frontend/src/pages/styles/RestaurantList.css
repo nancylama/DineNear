@@ -77,3 +77,8 @@
     justify-content: flex-end;
     margin-right: 100px;
 }
+
+.link-dec {
+    text-decoration: none;
+    color: black;
+}

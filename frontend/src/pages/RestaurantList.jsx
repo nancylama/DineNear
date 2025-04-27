@@ -53,7 +53,7 @@ const RestaurantListPage = () => {
                     {topRestaurants.filter((restaurant) =>
                         restaurant.name.toLowerCase().includes(search.toLowerCase())
                     ).map((restaurant) => (
-                        <Link to="/restaurant-info">
+                        <Link to="/restaurant-info" className="link-dec">
                             <div className="card" key={restaurant.id}>
                                 <img src={restaurant.image_url} alt="Image of restaurant" />
                                 <h3 className="res-name">{restaurant.name}</h3>
