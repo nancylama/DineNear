@@ -1,8 +1,8 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import bcrypt from "bcrypt";
-import connection from "./database.js"; // ✅ only use "connection" consistently
+import bcrypt from "bcryptjs";
+import connection from "./database.js"; 
 
 dotenv.config();
 
@@ -91,7 +91,7 @@ app.post("/api/google-register", async (req, res) => {
 
     const user_id = await createUserId(name);
 
-    const query = 'INSERT INTO users (user_id, email, password, name, dob VALUES (?, ?, NULL, ?, NULL);';
+    const query = 'INSERT INTO users (user_id, email, password, name, dob) VALUES (?, ?, NULL, ?, NULL);';
     await connection.promise().query(query, [user_id, email, name]) 
   } catch (err) {
       console.error("Registration error:", err);
@@ -169,6 +169,18 @@ app.post('/api/reviews', async (req, res) => {
   } catch (err) {
     console.error("Error inserting review:", err);
     return res.status(500).json({ error: "Error inserting review" });
+  }
+});
+
+//Deals 
+app.get('/api/deals', async (req,res)=> {
+  try{
+  const query = "SELECT * FROM deal";
+  const [results] = await connection.promise().query(query);
+  res.join(results);
+  } catch (err){
+    console.error('Error getting deals:', err);
+    res.status(500).send ([false, 'Error']);
   }
 });
 

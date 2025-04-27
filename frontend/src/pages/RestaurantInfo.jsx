@@ -1,6 +1,7 @@
 import React from "react";
 import "./RestaurantInfo.css";
-
+import { Link } from "react-router-dom";
+/*test*/
 const RestaurantInfo = () => {
   return (
     <div className="info-page">
@@ -59,8 +60,12 @@ const RestaurantInfo = () => {
           </div>
 
           <div className="action-buttons">
-            <button className="reserve-btn">Reserve</button>
-            <button className="order-btn">Order</button>
+          <Link to="/reservations">
+              <button className="reserve-btn">Reserve</button>
+            </Link>
+            <Link to="/order">
+              <button className="order-btn">Order</button>
+            </Link>
           </div>
         </div>
       </div>

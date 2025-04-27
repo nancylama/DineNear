@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-
+/*test*/
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");
   const [dob, setDob] = useState("");
@@ -16,39 +16,59 @@ const RegisterPage = () => {
     console.log("Google User Info:", userInfo);
 
     try {
-      // Save to localStorage
-      localStorage.setItem("user", JSON.stringify(userInfo));
-
-      // Redirect
-      navigate("/user-profile");
-
-      // Optional backend call (if you still want)
-      await fetch("http://localhost:8080/api/google-register", {
+      // Send to backend
+      const response = await fetch("http://localhost:8080/api/google-register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: userInfo.email,
           name: userInfo.name,
-          picture: userInfo.picture,
         }),
       });
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result[0]) {
+        alert(`Welcome ${userInfo.name}! Google account registered.`);
+        navigate("/user-profile");
+      } else {
+        alert(result[1]);
+      }
     } catch (err) {
       console.error("Google register failed:", err);
+      alert("Google register failed.");
     }
   };
 
-  const handleManualRegister = (e) => {
+  const handleManualRegister = async (e) => {
     e.preventDefault();
 
-    const newUser = {
-      name: fullName,
-      email,
-      dob,
-    };
+    try {
+      const response = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fullName,
+          email: email,
+          password: password,
+          dob: dob,
+        }),
+      });
 
-    localStorage.setItem("user", JSON.stringify(newUser));
-    alert("Manual registration successful!");
-    navigate("/user-profile");
+      const result = await response.json();
+      console.log(result);
+
+      if (result[0]) {
+        alert("Manual registration successful!");
+        navigate("/user-profile");
+      } else {
+        alert(result[1]);
+      }
+    } catch (err) {
+      console.error("Manual registration failed:", err);
+      alert("Registration failed. Please try again.");
+    }
   };
 
   return (

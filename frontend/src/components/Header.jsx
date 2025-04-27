@@ -45,7 +45,7 @@ const Header = () => {
                 <Link to="/menu" className="link-decoration">
                     <h2>Menus</h2>
                 </Link>
-                <Link to="/payment" className="link-decoration">
+                <Link to="/order" className="link-decoration">
                     <h2>Payments</h2>
                 </Link>
                 <Link to="/restaurant-info" className="link-decoration">

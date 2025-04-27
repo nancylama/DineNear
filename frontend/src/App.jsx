@@ -6,15 +6,14 @@ import DealsPage from './pages/Deals';
 import LoginPage from './Pages/Login';
 import MenuPage from './Pages/Menu';
 import PaymentPage from './pages/Payment';
-import Reservation from './pages/Reservation';
+import Reservation from './Pages/Reservation';
 import RestaurantListPage from './pages/RestaurantList';
 import UserPage from './Pages/User';
-import ReviewsPage from './pages/Reviews'
+import ReviewsPage from './Pages/Reviews'
 import RegisterPage from './pages/Register';
-import RestaurantInfo from './pages/RestaurantInfo';
-import OrderPage from './pages/OrderPage';
-
-
+import RestaurantInfo from './Pages/RestaurantInfo';
+import OrderPage from './Pages/OrderPage';
+import OrderSuccess from "./Pages/OrderSuccess"; 
 
 function App() {
   return (
@@ -34,6 +33,7 @@ function App() {
         <Route path="/reservations" element={<Reservation />} />
         <Route path="/restaurant" element={<RestaurantInfo />} />
         <Route path="/order" element={<OrderPage />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
       </Routes>
     </div>
   );
