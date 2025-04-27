@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-
+/*test*/
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");
   const [dob, setDob] = useState("");
