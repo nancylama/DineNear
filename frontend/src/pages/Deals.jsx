@@ -23,7 +23,6 @@ const DealsPage = () => {
     deal.restaurant.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  
 
   return (
     <div className="deals-page">

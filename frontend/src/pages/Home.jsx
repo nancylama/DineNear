@@ -8,7 +8,7 @@ const HomePage = () => {
         <form action="/action_page.php">
           <input type="text" placeholder="Search.." name="search" />
           <button type="submit">
-            <i className="fa fa-search"></i>
+            Submit
           </button>
         </form>
       </div>
