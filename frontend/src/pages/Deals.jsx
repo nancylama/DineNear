@@ -8,7 +8,7 @@ const DealsPage = () => {
   useEffect(() => {
     async function fetchDeals() {
       try {
-        const response = await fetch('http://localhost:3000/api/deals'); // Update API if needed
+        const response = await fetch('http://localhost:8080/api/deals'); 
         const data = await response.json();
         setDeals(data);
       } catch (error) {
@@ -22,6 +22,8 @@ const DealsPage = () => {
   const filteredDeals = deals.filter(deal =>
     deal.restaurant.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  
 
   return (
     <div className="deals-page">
@@ -39,15 +41,18 @@ const DealsPage = () => {
         />
       </div>
 
-      <section className="deals-container">
-        {filteredDeals.map((deal) => (
-          <div key={deal.deal_id} className="deal-card">
-            <p>{deal.description}</p>
-            <p><strong>at</strong> {deal.restaurant}</p>
-            <button className="learn-more-btn">Learn More</button>
-          </div>
-        ))}
-      </section>
+    <section className="deals-container">
+  {filteredDeals.map((deal) => (
+    <div key={deal.deal_id} className="deal-card">
+      <p>{deal.description}</p>
+      <p><strong>at</strong> {deal.restaurant}</p>
+      <Link to="/restaurant-info" className="link-dec">
+        <button className="learn-more-btn">Learn More</button>
+      </Link>
+    </div>
+  ))}
+</section>
+
     </div>
   );
 };

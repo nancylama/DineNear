@@ -12,7 +12,7 @@ const ReviewsPage = () => {
 
   async function fetchReviews() {
     try {
-      const response = await fetch('http://localhost:3000/api/reviews');
+      const response = await fetch('http://localhost:8080/api/reviews');
       const data = await response.json();
       setReviews(data);
     } catch (error) {
