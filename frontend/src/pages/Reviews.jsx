@@ -17,7 +17,7 @@ const ReviewsPage = () => {
       // const data = await response.json();
       // setReviews(data);
 
-      const response = await api.get('/reviews');
+      const response = await api.get('/api/reviews');
       setReviews(response.data);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);

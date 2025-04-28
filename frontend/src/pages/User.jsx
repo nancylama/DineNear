@@ -30,7 +30,7 @@ const UserPage = () => {
         async function getDietRes() {
             try {
                 // const response = await fetch("http://localhost:8080/api/diet-restrictions");
-                const response = await api.get('/diet-restrictions');
+                const response = await api.get('/api/diet-restrictions');
                 const data = await response.json();
                 console.log("Successfully got diet restrictions:", data); 
                 setDietRes(data);
@@ -53,7 +53,13 @@ const UserPage = () => {
             //     body: JSON.stringify({ email, name, phone, diet, payment }),
             // });
 
-            const res = await api.put('/update-profile');
+            const res = await api.put('/api/update-profile', {
+                email,
+                name,
+                phone,
+                diet,
+                payment
+            });
 
             const result = await res.json();
             if (result.success) {
