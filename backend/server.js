@@ -141,7 +141,7 @@ app.get('/api/top-rated', async (req, res) => {
 
 // Cuisines
 app.get('/api/cuisine', async (req, res) => {
-  const query = 'SELECT name, image_path FROM cuisine;';
+  const query = 'SELECT * FROM cuisine;';
 
   try {
     const [results] = await connection.promise().query(query);
