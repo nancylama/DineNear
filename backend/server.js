@@ -97,8 +97,8 @@ app.post("/api/google-register", async (req, res) => {
 
     const user_id = await createUserId(name);
 
-    const query = 'INSERT INTO users (user_id, email, password, name, dob) VALUES (?, ?, NULL, ?, NULL);';
-    await connection.promise().query(query, [user_id, email, name]) 
+    const query = 'INSERT INTO users (user_id, email, password, name, dob) VALUES (?, ?, ?, ?, ?);';
+    await connection.promise().query(query, [user_id, email, null, name, name]) 
   } catch (err) {
       console.error("Registration error:", err);
   }
