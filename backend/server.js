@@ -6,6 +6,13 @@ import connection from "./database.js";
 
 dotenv.config();
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 const app = express();
 
 app.use(cors({ origin: "http://localhost:5173" }));
@@ -262,6 +269,17 @@ app.get('/api/diet-restrictions', async (req, res) => {
   }
 });
 
-app.listen(8080, () => {
-  console.log("Backend running on http://localhost:8080");
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Serve index.html for any unknown routes (like React Router pages)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
+
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Backend running on port ${PORT}`);
+});
+
