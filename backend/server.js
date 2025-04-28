@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors({ origin: "https://carefree-reflection-production.up.railway.app" }));
+app.use(cors({ origin: "https://carefree-reflection-production.up.railway.app", credentials: true }));
 app.use(express.json());
 
 async function createUserId(name) {
