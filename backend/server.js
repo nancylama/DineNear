@@ -105,7 +105,7 @@ app.post("/api/google-register", async (req, res) => {
 });
 
 // Register API
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { email, password, name, dob } = req.body;
 
   try {
@@ -268,13 +268,13 @@ app.get('/api/diet-restrictions', async (req, res) => {
   }
 });
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, 'dist')));
+// // Serve frontend static files
+// app.use(express.static(path.join(__dirname, 'dist')));
 
-// Serve index.html for any unknown routes (like React Router pages)
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+// // Serve index.html for any unknown routes (like React Router pages)
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+// });
 
 
 const PORT = process.env.PORT || 8080;
