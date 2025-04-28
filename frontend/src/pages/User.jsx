@@ -31,7 +31,7 @@ const UserPage = () => {
             try {
                 // const response = await fetch("http://localhost:8080/api/diet-restrictions");
                 const response = await api.get('/diet-restrictions');
-                const data = await response.json();
+                const data = response.data;
                 console.log("Successfully got diet restrictions:", data); 
                 setDietRes(data);
             } catch (error) {
@@ -61,7 +61,7 @@ const UserPage = () => {
                 payment
             });
 
-            const result = await res.json();
+            const result = res.data;
             if (result.success) {
                 localStorage.setItem("user", JSON.stringify({ email, name, phone, diet, payment }));
                 alert("Profile updated.");
