@@ -13,7 +13,7 @@ import ReviewsPage from './pages/Reviews'
 import RegisterPage from './pages/Register';
 import RestaurantInfo from './pages/RestaurantInfo';
 import OrderPage from './pages/OrderPage';
-import OrderSuccess from "./pages/OrderSuccess"; 
+import OrderSuccess from "./Pages/OrderSuccess"; 
 
 function App() {
   return (
