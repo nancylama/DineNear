@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './styles/User.css';
+import './User.css';
 import api from "../api/axios";
 
 const UserPage = () => {
