@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './User.css';
+// import './User.css';
 import api from "../api/axios";
 
 const UserPage = () => {
@@ -74,6 +74,58 @@ const UserPage = () => {
     }
 
     return (
+        <div>
+
+            <style jsx="true">
+                {`
+                .profile-pic-box {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: 50px;
+                }
+
+                .pic {
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                }
+
+                .user-info {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                .profile-page {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }
+
+                button {
+                    border: none;
+                    color: white;
+                    background-color: #4F180B;
+                    border-radius: 5px;
+                    width: 150px;
+                    height: 30px;
+                    cursor: pointer;
+                }
+
+                form {
+                    gap: 10px;
+                }
+
+                .button-cont {
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 10px;
+                }
+
+                `}
+            </style>
+
+
         <div className="profile-page">
             <h2>User Profile</h2>
 
@@ -138,6 +190,7 @@ const UserPage = () => {
                     Log Out
                 </button>
             </div>
+        </div>
         </div>
     );
 };
