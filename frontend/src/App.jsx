@@ -2,7 +2,7 @@ import Header from './components/Header';
 import React from 'react';
 import { Route, Routes} from 'react-router-dom';
 import HomePage from "./pages/Home";
-import DealsPage from './Pages/Deals';
+import DealsPage from './pages/Deals';
 import LoginPage from './Pages/Login';
 import MenuPage from './Pages/Menu';
 import PaymentPage from './pages/Payment';
