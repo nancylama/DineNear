@@ -30,7 +30,7 @@ const UserPage = () => {
         async function getDietRes() {
             try {
                 // const response = await fetch("http://localhost:8080/api/diet-restrictions");
-                const response = await api.get('/diet-restrictions');
+                const response = await api.get('/api/diet-restrictions');
                 const data = response.data;
                 console.log("Successfully got diet restrictions:", data); 
                 setDietRes(data);
