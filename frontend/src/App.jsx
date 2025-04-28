@@ -8,8 +8,8 @@ import MenuPage from './pages/Menu';
 import PaymentPage from './pages/Payment';
 import Reservation from './pages/Reservation';
 import RestaurantListPage from './pages/RestaurantList';
-import UserPage from './Pages/User';
-import ReviewsPage from './Pages/Reviews'
+import UserPage from './pages/User';
+import ReviewsPage from './pages/Reviews'
 import RegisterPage from './pages/Register';
 import RestaurantInfo from './pages/RestaurantInfo';
 import OrderPage from './pages/OrderPage';
