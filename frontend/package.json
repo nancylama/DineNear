@@ -4,14 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://nancylama.github.io/DineNear",
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "vite build",        
-    "deploy": "gh-pages -d dist"         
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
