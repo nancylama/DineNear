@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles/Reviews.css";
+import api from "../api/axios";
 
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -12,9 +13,12 @@ const ReviewsPage = () => {
 
   async function fetchReviews() {
     try {
-      const response = await fetch('http://localhost:8080/api/reviews');
-      const data = await response.json();
-      setReviews(data);
+      // const response = await fetch('http://localhost:8080/api/reviews');
+      // const data = await response.json();
+      // setReviews(data);
+
+      const response = await api.get('/reviews');
+      setReviews(response.data);
     } catch (error) {
       console.error("Failed to fetch reviews:", error);
     }
@@ -24,15 +28,22 @@ const ReviewsPage = () => {
     e.preventDefault();
 
     try {
-      await fetch('http://localhost:8080/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          rating: newReview.rating,
-          comment: newReview.comment,
-          user_id: JSON.parse(localStorage.getItem("user")).user_id,
-        })
+      // await fetch('http://localhost:8080/api/reviews', {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     rating: newReview.rating,
+      //     comment: newReview.comment,
+      //     user_id: JSON.parse(localStorage.getItem("user")).user_id,
+      //   })
+      // });
+
+      await api.post('/reviews', {
+        rating: newReview.rating,
+        comment: newReview.comment,
+        user_id: JSON.parse(localStorage.getItem("user")).user_id,
       });
+
 
       setNewReview({ rating: 5, comment: "" }); // Clear form
       setShowForm(false); // Hide form after submission

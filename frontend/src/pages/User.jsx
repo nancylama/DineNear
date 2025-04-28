@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './styles/User.css';
+import api from "../api/axios";
 
 const UserPage = () => {
     const [name, setName] = useState("");
@@ -28,7 +29,8 @@ const UserPage = () => {
 
         async function getDietRes() {
             try {
-                const response = await fetch("http://localhost:8080/api/diet-restrictions");
+                // const response = await fetch("http://localhost:8080/api/diet-restrictions");
+                const response = await api.get('/diet-restrictions');
                 const data = await response.json();
                 console.log("Successfully got diet restrictions:", data); 
                 setDietRes(data);
@@ -45,11 +47,18 @@ const UserPage = () => {
         e.preventDefault();
 
         try {
-            const res = await fetch("http://localhost:8080/api/update-profile", {
+            // const res = await fetch("http://localhost:8080/api/update-profile", {
+            //     method: "PUT",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ email, name, phone, diet, payment }),
+            // });
+
+            const res = await api.get('/update-profile', {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, name, phone, diet, payment }),
             });
+
 
             const result = await res.json();
             if (result.success) {

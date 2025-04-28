@@ -3,6 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import "./styles/Login.css";
+import api from "../api/axios";
 
 const LoginPage = () => {
   const [name, setName] = useState("");
@@ -20,15 +21,20 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(userInfo));
 
       // Optional backend call (if you still want)
-      await fetch("http://localhost:8080/api/google-register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: userInfo.email,
-          name: userInfo.name,
-          picture: userInfo.picture,
-        }),
-      });
+      // await fetch("http://localhost:8080/api/google-register", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     email: userInfo.email,
+      //     name: userInfo.name,
+      //     picture: userInfo.picture,
+      //   }),
+      // });
+      await api.post('/api/google-register', {
+        email: userInfo.email,
+        name: userInfo.name,
+        picture: userInfo.picture,
+      }); 
     } catch (err) {
       console.error("Google login failed:", err);
     }

@@ -57,7 +57,6 @@ const Header = () => {
             </div>
 
             <div className="right-side" onClick={handleProfile} style={{ cursor: "pointer" }}>
-                {/* ✨ If user logged in, show their Google picture. Else show placeholder */}
                 {user ? (
                     <img 
                         src={user.picture}

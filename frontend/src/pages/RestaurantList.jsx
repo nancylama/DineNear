@@ -8,19 +8,31 @@ const RestaurantListPage = () => {
     const [search, setSearch] = useState("");
     const [cuisines, setCuisines] = useState([]);
 
+    // useEffect(() => {
+    //     axios
+    //       .get("http://localhost:8080/api/top-rated") 
+    //       .then((res) => setTopRestaurants(res.data))
+    //       .catch((err) => console.error("Error:", err)); 
+    //   }, []);
+
     useEffect(() => {
-        axios
-          .get("http://localhost:8080/api/top-rated") 
+        api.post('/top-rated') 
           .then((res) => setTopRestaurants(res.data))
           .catch((err) => console.error("Error:", err)); 
       }, []);
 
+    // useEffect(() => {
+    // axios
+    //     .get("http://localhost:8080/api/cuisine") 
+    //     .then((res) => setCuisines(res.data))
+    //     .catch((err) => console.error("Error:", err)); 
+    // }, []);
+
     useEffect(() => {
-    axios
-        .get("http://localhost:8080/api/cuisine") 
-        .then((res) => setCuisines(res.data))
-        .catch((err) => console.error("Error:", err)); 
-    }, []);
+        api.post('/cuisine') 
+            .then((res) => setCuisines(res.data))
+            .catch((err) => console.error("Error:", err)); 
+        }, []);
 
     return (
         <div className="restaurant-page">

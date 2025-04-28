@@ -1,7 +1,7 @@
 import React from "react";
 import "./RestaurantInfo.css";
 import { Link } from "react-router-dom";
-/*test*/
+
 const RestaurantInfo = () => {
   return (
     <div className="info-page">

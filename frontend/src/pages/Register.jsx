@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-/*test*/
+import api from "../api/axios";
+
 const RegisterPage = () => {
   const [fullName, setFullName] = useState("");
   const [dob, setDob] = useState("");
@@ -17,7 +18,16 @@ const RegisterPage = () => {
 
     try {
       // Send to backend
-      const response = await fetch("http://localhost:8080/api/google-register", {
+      // const response = await fetch("http://localhost:8080/api/google-register", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     email: userInfo.email,
+      //     name: userInfo.name,
+      //   }),
+      // });
+
+      const response = await api.post('/google-register', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -45,15 +55,22 @@ const RegisterPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8080/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: fullName,
-          email: email,
-          password: password,
-          dob: dob,
-        }),
+      // const response = await fetch("http://localhost:8080/api/register", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     name: fullName,
+      //     email: email,
+      //     password: password,
+      //     dob: dob,
+      //   }),
+      // });
+
+      const response = await api.post('/register', {
+        name: fullName,
+        email: email,
+        password: password,
+        dob: dob,
       });
 
       const result = await response.json();

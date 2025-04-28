@@ -1,15 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./styles/Menu.css";
-import { Link } from "react-router-dom";
+import api from "../api/axios";
 
 const MenuPage = () => {
     const [menuItems, setMenuItems] = useState([]);
     const [cart, setCart] = useState([]);
 
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:8080/api/RuaThaiMenu")
+    //         .then((res) => setMenuItems(res.data))
+    //         .catch((err) => console.error("Error:", err));
+    // }, []);
+
     useEffect(() => {
-        axios
-            .get("http://localhost:8080/api/RuaThaiMenu")
+        api.get('/api/RuaThaiMenu')
             .then((res) => setMenuItems(res.data))
             .catch((err) => console.error("Error:", err));
     }, []);
@@ -24,7 +30,9 @@ const MenuPage = () => {
         try {
             const items = cart.map((item) => item.menu_item_id)
 
-            await axios.post("http://localhost:8080/api/order-details", { order_id : `O001`, items });
+            // await axios.post("http://localhost:8080/api/order-details", { order_id : `O001`, items });
+            await api.post('/api/order-details', { order_id : `O001`, items });
+
             setCart([]);
             alert("Order saved");
         } catch (err) {
