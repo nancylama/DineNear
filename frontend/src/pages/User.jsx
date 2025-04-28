@@ -53,12 +53,7 @@ const UserPage = () => {
             //     body: JSON.stringify({ email, name, phone, diet, payment }),
             // });
 
-            const res = await api.get('/update-profile', {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, name, phone, diet, payment }),
-            });
-
+            const res = await api.put('/update-profile');
 
             const result = await res.json();
             if (result.success) {

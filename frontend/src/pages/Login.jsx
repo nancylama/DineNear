@@ -30,6 +30,7 @@ const LoginPage = () => {
       //     picture: userInfo.picture,
       //   }),
       // });
+      
       await api.post('/api/google-register', {
         email: userInfo.email,
         name: userInfo.name,

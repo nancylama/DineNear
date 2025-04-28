@@ -16,7 +16,7 @@ const RestaurantListPage = () => {
     //   }, []);
 
     useEffect(() => {
-        api.post('/top-rated') 
+        api.get('/top-rated') 
           .then((res) => setTopRestaurants(res.data))
           .catch((err) => console.error("Error:", err)); 
       }, []);
@@ -29,7 +29,7 @@ const RestaurantListPage = () => {
     // }, []);
 
     useEffect(() => {
-        api.post('/cuisine') 
+        api.get('/cuisine') 
             .then((res) => setCuisines(res.data))
             .catch((err) => console.error("Error:", err)); 
         }, []);

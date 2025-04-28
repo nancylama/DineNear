@@ -28,12 +28,8 @@ const RegisterPage = () => {
       // });
 
       const response = await api.post('/google-register', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
           email: userInfo.email,
           name: userInfo.name,
-        }),
       });
 
       const result = await response.json();
