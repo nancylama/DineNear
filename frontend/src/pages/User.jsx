@@ -174,7 +174,7 @@ const UserPage = () => {
                     >
                         <option value="">Select a diet restriction</option>
                         {dietRes.map((restriction) => (
-                            <option key={restriction.diet_id} value={restriction.diet_id}>
+                            <option key={restriction.diet_id} value={restriction.diet_type}>
                                 {restriction.diet_type}
                             </option>
                         ))}
