@@ -103,12 +103,12 @@ app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req,
 });
 
 // Reservation API
-app.post("/api/reservations", (req, result) => {
-  const { people, date, time, fname, lname, phone, email } = req.body;
+app.post("/api/reservations", async (req, res) => {
+  const { user_id, date, time, party_size } = req.body;
 
-  const sql = 'INSERT INTO reservations (people, date, time, fname, lname, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO reservations (user_id, date, time, party_size) VALUES (?, ?, ?, ?)';
 
-  connection.query(sql, [people, date, time, fname, lname, phone, email], (err, res) => {
+  connection.query(sql, [user_id, date, time, party_size], (err, res) => {
     if (err) {
       console.error("Error saving reservation:", err);
       return res.status(500).json({ message: "Reservation failed" });

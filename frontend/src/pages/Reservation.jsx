@@ -2,25 +2,36 @@ import React from "react";
 import { useState } from "react";
 import './Reservation.css';
 import bannerImage from "./blurred-busy-restaurant-background-free-photo.png";
+import api from "../api/axios";
 
 const Reservation = () => {
   const [formData, setFormData] = useState({
-    people: "",
+    user_id: "",
     date: "",
     time: "",
-    fname: "",
-    lname: "",
-    phone: "",
-    email: "",
+    party_size: "",
   }, 
 );
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Reservation confirmed! (mocked)");
+    
+    try {
+      const response = await api.post('/api/reservations', formData);
+      alert("Reservation confirmed");
+      setFormData({
+        user_id: "",
+        date: "",
+        time: "",
+        party_size: "",
+      })
+    } catch (err) {
+      console.err("Error saving reservation:", err);
+      alert("Error saving reservation")
+    }
   };
 
   return (
@@ -78,46 +89,6 @@ const Reservation = () => {
                 <input
                   type="time"
                   name="time"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="time-slots">
-                <button type="button">6:40 PM</button>
-                <button type="button">7:10 PM</button>
-                <button type="button">7:20 PM</button>
-              </div>
-
-              <div className="form-row">
-                <input
-                  type="text"
-                  name="fname"
-                  placeholder="First Name"
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="lname"
-                  placeholder="Last Name"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-
-              <div className="form-row">
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone Number"
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
                   onChange={handleChange}
                   required
                 />
