@@ -3,6 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import connection from "./database.js"; 
+import jwt from 'jsonwebtoken';
+import { authenticateToken, authorizeRoles } from './authMiddleWare.js';
+import adminEmails from './adminEmails.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -34,19 +37,18 @@ async function createUserId(name) {
   return user_id;
 }
 
-// Enable security
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const { authenticateToken, authorizeRoles } = require('./authMiddleWare.js');
-const adminEmails = require('./adminEmails.js');
-
 // === LOGIN ===
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   const [rows] = await connection.promise().query('SELECT * FROM users WHERE email = ?', [email]);
   const user = rows[0];
 
-  if (!user || user.password !== password) {
+  if (!user) {
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
+
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
 
@@ -57,7 +59,7 @@ app.post('/api/login', async (req, res) => {
 
   const token = jwt.sign(
     { user_id: user.user_id, name: user.name, role: user.role },
-    'your_secret_key',
+    process.env.JWT_SECRET,
     { expiresIn: '1h' }
   );
 
@@ -101,7 +103,7 @@ app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req,
 });
 
 // Reservation API
-app.post("/api/reservations", (req, res) => {
+app.post("/api/reservations", (req, result) => {
   const { people, date, time, fname, lname, phone, email } = req.body;
 
   const sql = 'INSERT INTO reservations (people, date, time, fname, lname, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)';
