@@ -78,7 +78,7 @@ const Reservation = () => {
             <h2>Make a reservation</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-row">
-                <select name="people" onChange={handleChange} required>
+                <select name="party_size" onChange={handleChange} required>
                   <option value=""># of People</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
