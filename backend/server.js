@@ -50,7 +50,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 const cors = require('cors');
-const { authenticateToken, authorizeRoles } = require('./authMiddleware.js');
+const { authenticateToken, authorizeRoles } = require('./authMiddleWare.js');
 const adminEmails = require('./adminEmails.js');
 
 const app = express();
@@ -59,8 +59,8 @@ app.use(express.json());
 
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: users.email,
-  password: users.password,
+  user: QUOTE(users.email),
+  password: QUOTE(users.password),
   database: DineNear,
 });
 
@@ -281,7 +281,8 @@ app.get('/api/reviews', async (req, res) => {
 });
 
 // === POST REVIEW (CUSTOMER or ADMINDDEV) ===
-app.post('/api/reviews', authenticateToken, authorizeRoles('customer', 'admindev'), async (req, res) => {
+ //
+app.post('/api/reviews', authenticateToken, authorizeRoles(customer, admindev), , async (req, res) => {
   const { restaurant_id, rating, comment } = req.body;
   const user_id = req.users.user_id;
 
