@@ -190,7 +190,7 @@ app.get('/api/reviews', async (req, res) => {
     const query = `
       SELECT r.review_id, r.rating, r.comment,
              r.restaurant_id, rest.name AS restaurant_name,
-             r.user_id, u.username AS user_name
+             r.user_id, u.name AS user_name
       FROM review r
       JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
       JOIN user u ON r.user_id = u.user_id
