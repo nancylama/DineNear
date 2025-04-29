@@ -652,7 +652,8 @@ CREATE USER users.email@'localhost' IDENTIFIED BY users.password;
 -- Privileges
 GRANT ALL PRIVILEGES ON DineNear.* TO admindev;
 GRANT SELECT, INSERT ON DineNear.review TO customer;
-GRANT SELECT ON DineNear.restaurant TO customer;
+GRANT SELECT ON DineNear.* TO customer;
+REVOKE SELECT ON DineNear.users TO customer;
 
 
 
