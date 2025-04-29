@@ -223,19 +223,24 @@ const ReviewsPage = () => {
       </div>
 
       <section id="reviews" className="reviews-container">
-        {reviews.map((review) => (
-          <div key={review.review_id} className="review-card">
-            <div className="stars">
-              {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
-            </div>
-            <p><strong>{review.restaurant_name}</strong></p>
-            <p>{review.comment}</p>
-            <div className="profile">
-              <div className="username">Reviewed by {review.user_name}</div>
-            </div>
-          </div>
-        ))}
-      </section>
+  {reviews.length === 0 ? (
+    <p>No reviews yet. Be the first to write one!</p>
+  ) : (
+    reviews.map((review) => (
+      <div key={review.review_id} className="review-card">
+        <div className="stars">
+          {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
+        </div>
+        <p><strong>{review.restaurant_name || "Unknown Restaurant"}</strong></p>
+        <p>{review.comment}</p>
+        <div className="profile">
+          <div className="username">Reviewed by {review.user_name || "Anonymous"}</div>
+        </div>
+      </div>
+    ))
+  )}
+</section>
+
     </div>
   );
 };
