@@ -106,7 +106,7 @@ app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req,
 app.post("/api/reservations", async (req, res) => {
   const { user_id, date, time, party_size } = req.body;
 
-  const sql = 'INSERT INTO reservations (user_id, date, time, party_size) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT INTO reservation (user_id, date, time, party_size) VALUES (?, ?, ?, ?)';
 
   connection.query(sql, [user_id, date, time, party_size], (err, res) => {
     if (err) {
