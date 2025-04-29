@@ -641,6 +641,22 @@ COMMIT;
 -- Adding Roles for Database Security 
 ALTER TABLE users ADD COLUMN role ENUM(`customer`, `admindev`) DEFAULT `customer`;
 
+-- Security SQL
+-- Roles
+CREATE ROLE admindev;
+CREATE ROLE customer;
+
+-- Users
+CREATE USER users.email@'localhost' IDENTIFIED BY users.password;
+
+-- Privileges
+GRANT ALL PRIVILEGES ON DineNear.* TO admindev;
+GRANT SELECT, INSERT ON DineNear.review TO customer;
+GRANT SELECT ON DineNear.restaurant TO customer;
+
+
+
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
