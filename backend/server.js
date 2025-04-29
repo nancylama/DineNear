@@ -45,46 +45,13 @@ connection.connect((err) => {
 });
 
 // Enable security
-const jwt = require('jsonwebtoken');
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader?.split(' ')[1];
-  if (!token) return res.sendStatus(401);
-
-  jwt.verify(token, 'your_secret_key', (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
-}
-
-function authorizeRoles(...allowedRoles) {
-  return (req, res, next) => {
-    if (!req.user || !allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-    next();
-  };
-}
-
-module.exports = { authenticateToken, authorizeRoles };
-
-
-// adminEmails
-module.exports = [
-  'as13933@nyu.edu',
-  'aav7142@nyu.edu', 
-  'nl2546@nyu.edu', 
-  'kjm7832@nyu.edu'
-];
 
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 const cors = require('cors');
-const { authenticateToken, authorizeRoles } = require('./authMiddleware');
-const adminEmails = require('./adminEmails');
+const { authenticateToken, authorizeRoles } = require('./authMiddleware.js');
+const adminEmails = require('./adminEmails.js');
 
 const app = express();
 app.use(cors());
