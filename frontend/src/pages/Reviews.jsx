@@ -152,12 +152,17 @@ const ReviewsPage = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    const user = JSON.parse(localStorage.getItem("user"));
+
     try {
       await api.post('/api/reviews', {
         restaurant_id: newReview.restaurant_id,
         rating: newReview.rating,
         comment: newReview.comment,
-        user_id: JSON.parse(localStorage.getItem("user")).user_id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        }
       });
 
       setNewReview({ restaurant_id: "", rating: 5, comment: "" });
@@ -235,7 +240,7 @@ const ReviewsPage = () => {
         <p><strong>{review.restaurant_name || "Unknown Restaurant"}</strong></p>
         <p>{review.comment}</p>
         <div className="profile">
-          <div className="username">Reviewed by {review.user_name || "Anonymous"}</div>
+          <div className="username">Reviewed by {review.name || "Anonymous"}</div>
         </div>
       </div>
     ))
