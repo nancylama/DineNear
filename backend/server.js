@@ -35,27 +35,13 @@ async function createUserId(name) {
   return user_id;
 }
 
-// Connect to DB
-connection.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-    return;
-  }
-  console.log("Connected to MySQL database!");
-});
-
 // Enable security
-
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 const cors = require('cors');
 const { authenticateToken, authorizeRoles } = require('./authMiddleWare.js');
 const adminEmails = require('./adminEmails.js');
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -135,7 +121,7 @@ app.post("/api/reservations", (req, res) => {
 
   const sql = 'INSERT INTO reservations (people, date, time, fname, lname, phone, email) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-  connection.query(sql, [people, date, time, fname, lname, phone, email], (err, result) => {
+  connection.query(sql, [people, date, time, fname, lname, phone, email], (err, res) => {
     if (err) {
       console.error("Error saving reservation:", err);
       return res.status(500).json({ message: "Reservation failed" });
@@ -281,8 +267,7 @@ app.get('/api/reviews', async (req, res) => {
 });
 
 // === POST REVIEW (CUSTOMER or ADMINDDEV) ===
- //
-app.post('/api/reviews', authenticateToken, authorizeRoles(customer, admindev), , async (req, res) => {
+app.post('/api/reviews', authenticateToken, authorizeRoles(customer, admindev), async (req, res) => {
   const { restaurant_id, rating, comment } = req.body;
   const user_id = req.users.user_id;
 
