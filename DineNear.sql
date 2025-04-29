@@ -639,7 +639,7 @@ ALTER TABLE `userdietrestriction`
 COMMIT;
 
 -- Adding Roles for Database Security 
-ALTER TABLE users ADD COLUMN role ENUM(`customer`, `admindev`);
+ALTER TABLE users ADD COLUMN role ENUM(`customer`, `admindev`) DEFAULT `customer`;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
