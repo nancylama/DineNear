@@ -59,9 +59,9 @@ app.use(express.json());
 
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: 'your_db_password',
-  database: 'your_db_name',
+  user: users.email,
+  password: users.password,
+  database: DineNear,
 });
 
 // === LOGIN ===
