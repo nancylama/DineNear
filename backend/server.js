@@ -152,16 +152,48 @@ app.get('/api/cuisine', async (req, res) => {
   }
 });
 
-// Reviews 
+// // Reviews 
+// app.get('/api/reviews', async (req, res) => {
+//   try {
+//     const query = `
+//       SELECT r.review_id, r.rating, r.comment,
+//              r.restaurant_id, rest.name AS restaurant_name,
+//              r.user_id, u.name AS user_name
+//       FROM review r
+//       JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
+//       JOIN users u ON r.user_id = u.user_id
+//     `;
+//     const [results] = await connection.promise().query(query);
+//     res.json(results);
+//   } catch (err) {
+//     console.error("Error getting reviews:", err);
+//     res.status(500).send("Error");
+//   }
+// });
+
+// app.post('/api/reviews', async (req, res) => {
+//  const { user_id, rating, comment, restaurant_id } = req.body;
+
+//   try {
+// const query = 'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?);';
+// const [result] = await connection.promise().query(query, [user_id, restaurant_id, rating, comment]);
+
+//     res.status(201).json({ review_id: result.insertId });
+//   } catch (err) {
+//     console.error("Error inserting review:", err);
+//     return res.status(500).json({ error: "Error inserting review" });
+//   }
+// });
+// Get all reviews with restaurant name and user name
 app.get('/api/reviews', async (req, res) => {
   try {
     const query = `
       SELECT r.review_id, r.rating, r.comment,
              r.restaurant_id, rest.name AS restaurant_name,
-             r.user_id, u.name AS user_name
+             r.user_id, u.username AS user_name
       FROM review r
       JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
-      JOIN users u ON r.user_id = u.user_id
+      JOIN user u ON r.user_id = u.user_id
     `;
     const [results] = await connection.promise().query(query);
     res.json(results);
@@ -171,17 +203,33 @@ app.get('/api/reviews', async (req, res) => {
   }
 });
 
+// Post a new review
 app.post('/api/reviews', async (req, res) => {
- const { user_id, rating, comment, restaurant_id } = req.body;
+  const { user_id, restaurant_id, rating, comment } = req.body;
 
   try {
-const query = 'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?);';
-const [result] = await connection.promise().query(query, [user_id, restaurant_id, rating, comment]);
+    const query = `
+      INSERT INTO review (user_id, restaurant_id, rating, comment)
+      VALUES (?, ?, ?, ?)
+    `;
+    const [result] = await connection.promise().query(query, [user_id, restaurant_id, rating, comment]);
 
     res.status(201).json({ review_id: result.insertId });
   } catch (err) {
     console.error("Error inserting review:", err);
-    return res.status(500).json({ error: "Error inserting review" });
+    res.status(500).json({ error: "Error inserting review" });
+  }
+});
+
+// Get all restaurants for dropdown
+app.get('/api/restaurants', async (req, res) => {
+  try {
+    const query = 'SELECT restaurant_id, name FROM restaurant';
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting restaurants:", err);
+    res.status(500).send("Error");
   }
 });
 
