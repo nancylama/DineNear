@@ -24,6 +24,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `adminuser`
+--
+
+CREATE TABLE `adminuser`(
+`admin_id` varchar(10) NOT NULL, 
+`email` varchar(30) DEFAULT NULL, 
+`password` varchar(10) DEFAULT NULL, 
+`name` varchar(30) DEFAULT NULL, 
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `adminuser` 
+--
+
+INSERT INTO `adminuser`(`user_id`, `email`, `password`, `name`) VALUES
+(`A101`, `as13933@nyu.edu`, `password10`,`Adiva Siddeky`), 
+(`A202`, `aav7142@nyu.edu`, `password11`,`Ashley Varghese`), 
+(`N303`, `nl2546@nyu.edu`, `password12`,`Nancy Lama`), 
+(`K404`, `kjm7832@nyu.edu`, `password13`,`KJ Moses`);  
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cuisine`
 --
 
@@ -444,6 +467,12 @@ INSERT INTO `users` (`user_id`, `email`, `password`, `name`, `dob`) VALUES
 --
 -- Indexes for dumped tables
 --
+
+--
+--Indexes for table 'adminuser'
+--
+ALTER TABLE `adminuser`
+  ADD PRIMARY KEY (`admin_id`);
 
 --
 -- Indexes for table `cuisine`
