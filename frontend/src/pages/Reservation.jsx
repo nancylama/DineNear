@@ -6,7 +6,6 @@ import api from "../api/axios";
 
 const Reservation = () => {
   const [formData, setFormData] = useState({
-    user_id: "",
     date: "",
     time: "",
     party_size: "",
@@ -20,16 +19,23 @@ const Reservation = () => {
     e.preventDefault();
     
     try {
-      const response = await api.post('/api/reservations', formData);
+      const user_id = localStorage.getItem("user_id");
+
+      const response = await api.post('/api/reservations', {
+        user_id,
+        date: formData.date,
+        time: formData.time,
+        party_size: formData.party_size,
+      })
+
       alert("Reservation confirmed");
       setFormData({
-        user_id: "",
         date: "",
         time: "",
         party_size: "",
       })
     } catch (err) {
-      console.err("Error saving reservation:", err);
+      console.error("Error saving reservation:", err);
       alert("Error saving reservation")
     }
   };
