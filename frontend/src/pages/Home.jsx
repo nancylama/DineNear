@@ -4,12 +4,6 @@ import './styles/Home.css';
 const HomePage = () => {
   return (
     <div className="home-page">
-      <div className="search-container">
-        <form action="/action_page.php">
-          <input type="text" placeholder="Search.." name="search" />
-        </form>
-      </div>
-
       <h1>Welcome To DineNear!</h1>
 
       <div className="images">
