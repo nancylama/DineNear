@@ -231,7 +231,7 @@ const ReviewsPage = () => {
             <p><strong>{review.restaurant_name}</strong></p>
             <p>{review.comment}</p>
             <div className="profile">
-              <div className="username">Reviewed by {review.user_name}</div>
+              <div className="username">Reviewed by {review.name}</div>
             </div>
           </div>
         ))}
