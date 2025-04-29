@@ -3,11 +3,10 @@ import cors from "cors";
 import dotenv from "dotenv";
 import bcrypt from "bcryptjs";
 import connection from "./database.js"; 
-
-dotenv.config();
-
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,19 +35,10 @@ async function createUserId(name) {
 }
 
 // Enable security
-const express = require('express');
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql2');
 const cors = require('cors');
 const { authenticateToken, authorizeRoles } = require('./authMiddleWare.js');
 const adminEmails = require('./adminEmails.js');
-
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: QUOTE(users.email),
-  password: QUOTE(users.password),
-  database: DineNear,
-});
 
 // === LOGIN ===
 app.post('/api/login', async (req, res) => {
@@ -109,11 +99,6 @@ app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req,
   );
   res.json(results);
 });
-
-app.listen(8080, () => {
-  console.log('Server running on port 8080');
-});
-
 
 // Reservation API
 app.post("/api/reservations", (req, res) => {
@@ -255,6 +240,7 @@ app.get('/api/cuisine', async (req, res) => {
 //     return res.status(500).json({ error: "Error inserting review" });
 //   }
 // });
+
 // === GET REVIEWS (PUBLIC) ===
 app.get('/api/reviews', async (req, res) => {
   const [results] = await connection.promise().query(`
@@ -267,7 +253,7 @@ app.get('/api/reviews', async (req, res) => {
 });
 
 // === POST REVIEW (CUSTOMER or ADMINDDEV) ===
-app.post('/api/reviews', authenticateToken, authorizeRoles(customer, admindev), async (req, res) => {
+app.post('/api/reviews', authenticateToken, authorizeRoles('customer', 'admindev'), async (req, res) => {
   const { restaurant_id, rating, comment } = req.body;
   const user_id = req.users.user_id;
 
