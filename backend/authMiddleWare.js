@@ -1,7 +1,8 @@
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-function authenticateToken(req, res, next) {
+export function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader?.split(' ')[1];
   if (!token) return res.sendStatus(401);
@@ -13,7 +14,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-function authorizeRoles(...allowedRoles) {
+export function authorizeRoles(...allowedRoles) {
   return (req, res, next) => {
     if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res.status(403).json({ error: 'Forbidden' });
@@ -22,4 +23,4 @@ function authorizeRoles(...allowedRoles) {
   };
 }
 
-module.exports = { authenticateToken, authorizeRoles };
+
