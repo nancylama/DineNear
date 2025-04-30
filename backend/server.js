@@ -245,12 +245,13 @@ app.get('/api/cuisine', async (req, res) => {
 
 // === GET REVIEWS (PUBLIC) ===
 app.get('/api/reviews', async (req, res) => {
-  const [results] = await connection.promise().query(`
+  const query = `
     SELECT r.review_id, r.rating, r.comment, u.name, rest.name AS restaurant_name
     FROM review r
     JOIN users u ON r.user_id = u.user_id
     JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
-  `);
+  `;
+  const [results] = await connection.promise().query(query);
   res.json(results);
 });
 
