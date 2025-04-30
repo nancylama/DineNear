@@ -108,7 +108,7 @@ app.post("/api/reservations", async (req, res) => {
 
   const sql = 'INSERT INTO reservation (user_id, date, time, party_size) VALUES (?, ?, ?, ?)';
 
-  connection.query(sql, [user_id, date, time, party_size], (err, res) => {
+  connection.query(sql, [user_id, date, time, party_size], (err, results) => {
     if (err) {
       console.error("Error saving reservation:", err);
       return res.status(500).json({ message: "Reservation failed" });
@@ -258,7 +258,7 @@ app.get('/api/reviews', async (req, res) => {
 // === POST REVIEW (CUSTOMER or ADMINDDEV) ===
 app.post('/api/reviews', authenticateToken, authorizeRoles('customer', 'admindev'), async (req, res) => {
   const { restaurant_id, rating, comment } = req.body;
-  const user_id = req.users.user_id;
+  const user_id = req.user.user_id;
 
   await connection.promise().query(
     'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?)',
