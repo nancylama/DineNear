@@ -16,7 +16,23 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors({ origin: "https://carefree-reflection-production.up.railway.app", credentials: true }));
+const origins = [
+  'https://carefree-reflection-production.up.railway.app',
+  'http://localhost:5173'
+]
+
+// app.use(cors({ origin: origins, credentials: true }));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || origins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 app.use(express.json());
 
 async function createUserId(name) {
@@ -38,69 +54,69 @@ async function createUserId(name) {
 }
 
 // === LOGIN ===
-app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-  const [rows] = await connection.promise().query('SELECT * FROM users WHERE email = ?', [email]);
-  const user = rows[0];
+// app.post('/api/login', async (req, res) => {
+//   const { email, password } = req.body;
+//   const [rows] = await connection.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+//   const user = rows[0];
 
-  if (!user) {
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
+//   if (!user) {
+//     return res.status(401).json({ error: 'Invalid credentials' });
+//   }
 
-  const validPassword = await bcrypt.compare(password, user.password);
-  if (!validPassword) {
-    return res.status(401).json({ error: 'Invalid credentials' });
-  }
+  // const validPassword = await bcrypt.compare(password, user.password);
+  // if (!validPassword) {
+  //   return res.status(401).json({ error: 'Invalid credentials' });
+  // }
 
-  if (adminEmails.includes(user.email) && user.role !== 'admindev') {
-    await connection.promise().query('UPDATE users SET role = ? WHERE user_id = ?', ['admindev', user.user_id]);
-    user.role = 'admindev';
-  }
+  // if (adminEmails.includes(user.email) && user.role !== 'admindev') {
+  //   await connection.promise().query('UPDATE users SET role = ? WHERE user_id = ?', ['admindev', user.user_id]);
+  //   user.role = 'admindev';
+  // }
 
-  const token = jwt.sign(
-    { user_id: user.user_id, name: user.name, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
+  // const token = jwt.sign(
+  //   { user_id: user.user_id, name: user.name, role: user.role },
+  //   process.env.JWT_SECRET,
+  //   { expiresIn: '1h' }
+  // );
 
-  res.json({ token });
-});
+  // res.json({ token });
+// });
 
-// === PROMOTE USER ===
-app.post('/api/promote', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
-  const { user_id } = req.body;
-  try {
-    await connection.promise().query(
-      'UPDATE users SET role = ? WHERE user_id = ?',
-      ['admindev', user_id]
-    );
-    res.json({ message: 'User promoted to admindev' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to promote user' });
-  }
-});
+// // === PROMOTE USER ===
+// app.post('/api/promote', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
+//   const { user_id } = req.body;
+//   try {
+//     await connection.promise().query(
+//       'UPDATE users SET role = ? WHERE user_id = ?',
+//       ['admindev', user_id]
+//     );
+//     res.json({ message: 'User promoted to admindev' });
+//   } catch (err) {
+//     res.status(500).json({ error: 'Failed to promote user' });
+//   }
+// });
 
-// === DEMOTE USER ===
-app.post('/api/demote', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
-  const { user_id } = req.body;
-  try {
-    await connection.promise().query(
-      'UPDATE users SET role = ? WHERE user_id = ?',
-      ['customer', user_id]
-    );
-    res.json({ message: 'User demoted to customer' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to demote user' });
-  }
-});
+// // === DEMOTE USER ===
+// app.post('/api/demote', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
+//   const { user_id } = req.body;
+//   try {
+//     await connection.promise().query(
+//       'UPDATE users SET role = ? WHERE user_id = ?',
+//       ['customer', user_id]
+//     );
+//     res.json({ message: 'User demoted to customer' });
+//   } catch (err) {
+//     res.status(500).json({ error: 'Failed to demote user' });
+//   }
+// });
 
 // === VIEW USERS (ADMINDDEV ONLY) ===
-app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
-  const [results] = await connection.promise().query(
-    'SELECT user_id, name, email, role FROM users'
-  );
-  res.json(results);
-});
+// app.get('/api/users', authenticateToken, authorizeRoles('admindev'), async (req, res) => {
+//   const [results] = await connection.promise().query(
+//     'SELECT user_id, name, email, role FROM users'
+//   );
+//   res.json(results);
+// });
 
 // Reservation API
 app.post("/api/reservations", async (req, res) => {
@@ -145,7 +161,7 @@ async function insertUser(user_id, email, password, name, dob) {
 
 // Register with Google
 app.post("/api/google-register", async (req, res) => {
-  const { email, name } = req.body;
+  const { email, name, dob } = req.body;
 
   try {
     const userExists = await checkUserExists(email);
@@ -156,7 +172,8 @@ app.post("/api/google-register", async (req, res) => {
     const user_id = await createUserId(name);
 
     const query = 'INSERT INTO users (user_id, email, password, name, dob) VALUES (?, ?, ?, ?, ?);';
-    await connection.promise().query(query, [user_id, email, null, name, name]) 
+    await connection.promise().query(query, [user_id, email, null, name, dob]);
+    res.send([true, "User registered successfully."]);
   } catch (err) {
       console.error("Registration error:", err);
   }
@@ -210,63 +227,72 @@ app.get('/api/cuisine', async (req, res) => {
   }
 });
 
-// // Reviews 
-// app.get('/api/reviews', async (req, res) => {
-//   try {
-//     const query = `
-//       SELECT r.review_id, r.rating, r.comment,
-//              r.restaurant_id, rest.name AS restaurant_name,
-//              r.user_id, u.name AS user_name
-//       FROM review r
-//       JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
-//       JOIN users u ON r.user_id = u.user_id
-//     `;
-//     const [results] = await connection.promise().query(query);
-//     res.json(results);
-//   } catch (err) {
-//     console.error("Error getting reviews:", err);
-//     res.status(500).send("Error");
-//   }
-// });
+// Reviews 
+app.get('/api/reviews', async (req, res) => {
+  try {
+    // const query = `
+    //   SELECT r.review_id, r.rating, r.comment,
+    //          r.restaurant_id, rest.name AS restaurant_name,
+    //          r.user_id, u.name AS user_name
+    //   FROM review r
+    //   JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
+    //   JOIN users u ON r.user_id = u.user_id
+    // `;
+    const query = `
+      SELECT r.review_id, r.rating, r.comment,
+            r.restaurant_id, rest.name AS restaurant_name,
+            r.user_id, u.name AS user_name
+      FROM review r
+      JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
+      LEFT JOIN users u ON r.user_id = u.user_id
+    `;
+    const [results] = await connection.promise().query(query);
+    res.json(results);
+  } catch (err) {
+    console.error("Error getting reviews:", err);
+    res.status(500).send("Error");
+  }
+});
 
-// app.post('/api/reviews', async (req, res) => {
-//  const { user_id, rating, comment, restaurant_id } = req.body;
+app.post('/api/reviews', async (req, res) => {
+ const { rating, comment, restaurant_id } = req.body;
 
-//   try {
-// const query = 'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?);';
-// const [result] = await connection.promise().query(query, [user_id, restaurant_id, rating, comment]);
+  try {
+const query = 'INSERT INTO review (restaurant_id, rating, comment) VALUES (?, ?, ?);';
+const [result] = await connection.promise().query(query, [restaurant_id, rating, comment]);
 
-//     res.status(201).json({ review_id: result.insertId });
-//   } catch (err) {
-//     console.error("Error inserting review:", err);
-//     return res.status(500).json({ error: "Error inserting review" });
-//   }
-// });
+    // res.status(201).json({ review_id: result.insertId });
+    res.status(201).json({ message: "Review submitted successfully" });
+  } catch (err) {
+    console.error("Error inserting review:", err);
+    return res.status(500).json({ error: "Error inserting review" });
+  }
+});
 
 // === GET REVIEWS (PUBLIC) ===
-app.get('/api/reviews', async (req, res) => {
-  const query = `
-    SELECT r.review_id, r.rating, r.comment, u.name, rest.name AS restaurant_name
-    FROM review r
-    JOIN users u ON r.user_id = u.user_id
-    JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
-  `;
-  const [results] = await connection.promise().query(query);
-  res.json(results);
-});
+// app.get('/api/reviews', async (req, res) => {
+//   const query = `
+//     SELECT r.review_id, r.rating, r.comment, u.name, rest.name AS restaurant_name
+//     FROM review r
+//     JOIN users u ON r.user_id = u.user_id
+//     JOIN restaurant rest ON r.restaurant_id = rest.restaurant_id
+//   `;
+//   const [results] = await connection.promise().query(query);
+//   res.json(results);
+// });
 
 // === POST REVIEW (CUSTOMER or ADMINDDEV) ===
-app.post('/api/reviews', authenticateToken, authorizeRoles('customer', 'admindev'), async (req, res) => {
-  const { restaurant_id, rating, comment } = req.body;
-  const user_id = req.user.user_id;
+// app.post('/api/reviews', authenticateToken, authorizeRoles('customer', 'admindev'), async (req, res) => {
+//   const { restaurant_id, rating, comment } = req.body;
+//   const user_id = req.user.user_id;
 
-  await connection.promise().query(
-    'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?)',
-    [user_id, restaurant_id, rating, comment]
-  );
+//   await connection.promise().query(
+//     'INSERT INTO review (user_id, restaurant_id, rating, comment) VALUES (?, ?, ?, ?)',
+//     [user_id, restaurant_id, rating, comment]
+//   );
 
-  res.status(201).json({ message: 'Review submitted' });
-});
+//   res.status(201).json({ message: 'Review submitted' });
+// });
 
 
 // Get all restaurants for dropdown

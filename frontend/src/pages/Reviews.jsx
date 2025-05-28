@@ -38,10 +38,11 @@
 //       //   })
 //       // });
 
-//       await api.post('/reviews', {
+//       await api.post('/api/reviews', {
 //         rating: newReview.rating,
 //         comment: newReview.comment,
 //         user_id: JSON.parse(localStorage.getItem("user")).user_id,
+//         restaurant_id: newReview.restaurant_id
 //       });
 
 
@@ -87,6 +88,16 @@
 //               />
 //             </label>
 
+//             <label>
+//               Restaurant:
+//               <input
+//                 type="text"
+//                 value={newReview.restaurant_id}
+//                 onChange={(e) => setNewReview({ ...newReview, restaurant_id: e.target.value })}
+//                 required
+//               />
+//             </label>
+
 //             <button type="submit">Submit</button>
 //           </form>
 //         )}
@@ -98,10 +109,10 @@
 //       <div className="stars">
 //         {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
 //       </div>
-//       <p><strong>{review.restaurant_name}</strong></p>
+//       <p><strong>{review.restaurant_id}</strong></p>
 //       <p>{review.comment}</p>
 //       <div className="profile">
-//         <div className="username">Reviewed by {review.user_name}</div>
+//         <div className="username">Reviewed by {review.user_id}</div>
 //       </div>
 //     </div>
 //   ))}
@@ -112,9 +123,10 @@
 
 // export default ReviewsPage;
 
+
 import React, { useEffect, useState } from "react";
 import "./styles/Reviews.css";
-import api from "../api/axios"; // Make sure axios is properly set up
+import api from "../api/axios"; 
 
 const ReviewsPage = () => {
   const [reviews, setReviews] = useState([]);
@@ -143,6 +155,7 @@ const ReviewsPage = () => {
   async function fetchRestaurants() {
     try {
       const response = await api.get('/api/restaurants');
+      console.log("Fetched restaurants:", response.data); 
       setRestaurants(response.data);
     } catch (error) {
       console.error("Failed to fetch restaurants:", error);
@@ -152,18 +165,20 @@ const ReviewsPage = () => {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    // const user = JSON.parse(localStorage.getItem("user"));
 
     try {
       await api.post('/api/reviews', {
         restaurant_id: newReview.restaurant_id,
         rating: newReview.rating,
         comment: newReview.comment,
-      }, {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      });
+      }
+      // , {
+      //   headers: {
+      //     Authorization: `Bearer ${user.token}`
+      //   }
+      // }
+    );
 
       setNewReview({ restaurant_id: "", rating: 5, comment: "" });
       setShowForm(false);
@@ -186,6 +201,7 @@ const ReviewsPage = () => {
 
         {showForm && (
           <form onSubmit={handleSubmit} className="review-form">
+            <p>Restaurants count: {restaurants.length}</p>
             <label>
               Restaurant:
               <select
@@ -237,10 +253,11 @@ const ReviewsPage = () => {
         <div className="stars">
           {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
         </div>
-        <p><strong>{review.restaurant_name || "Unknown Restaurant"}</strong></p>
+        <p><strong>{review.restaurant_id || "Unknown Restaurant"}</strong></p>
         <p>{review.comment}</p>
         <div className="profile">
-          <div className="username">Reviewed by {review.name || "Anonymous"}</div>
+          {/* <div className="username">Reviewed by {review.user_id || "Anonymous"}</div> */}
+          <div className="username">Reviewed by Anonymous</div>
         </div>
       </div>
     ))
