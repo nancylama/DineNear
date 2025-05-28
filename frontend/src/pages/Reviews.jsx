@@ -201,7 +201,6 @@ const ReviewsPage = () => {
 
         {showForm && (
           <form onSubmit={handleSubmit} className="review-form">
-            <p>Restaurants count: {restaurants.length}</p>
             <label>
               Restaurant:
               <select
@@ -253,7 +252,7 @@ const ReviewsPage = () => {
         <div className="stars">
           {"★".repeat(review.rating) + "☆".repeat(5 - review.rating)}
         </div>
-        <p><strong>{review.restaurant_id || "Unknown Restaurant"}</strong></p>
+        <p><strong>{review.restaurant_name || "Unknown Restaurant"}</strong></p>
         <p>{review.comment}</p>
         <div className="profile">
           {/* <div className="username">Reviewed by {review.user_id || "Anonymous"}</div> */}

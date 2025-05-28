@@ -16,23 +16,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-const origins = [
-  'https://carefree-reflection-production.up.railway.app',
-  'http://localhost:5173'
-]
-
-// app.use(cors({ origin: origins, credentials: true }));
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || origins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-
+app.use(cors({ origin: "https://carefree-reflection-production.up.railway.app", credentials: true }));
 app.use(express.json());
 
 async function createUserId(name) {
@@ -261,7 +245,7 @@ app.post('/api/reviews', async (req, res) => {
 const query = 'INSERT INTO review (restaurant_id, rating, comment) VALUES (?, ?, ?);';
 const [result] = await connection.promise().query(query, [restaurant_id, rating, comment]);
 
-    // res.status(201).json({ review_id: result.insertId });
+    res.status(201).json({ review_id: result.insertId });
     res.status(201).json({ message: "Review submitted successfully" });
   } catch (err) {
     console.error("Error inserting review:", err);
