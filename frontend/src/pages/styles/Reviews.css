@@ -61,11 +61,7 @@ body {
 }
 
 .submit-review {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 20px 0;
-  gap: 20px;
 }
 
 .submit-review button {

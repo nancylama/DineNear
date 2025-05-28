@@ -104,7 +104,7 @@ const ReviewsPage = () => {
             </label>
 
             <label>
-              Comment:
+              <div>Comment:</div>
               <textarea
                 value={newReview.comment}
                 onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })}
