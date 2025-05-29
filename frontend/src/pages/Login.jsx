@@ -54,8 +54,7 @@ const LoginPage = () => {
     try {
       const result = await api.post("/api/login", { email, password });
 
-      if (result.data.success) {
-        const user =  result.data.user;
+      const user = result.data.user;
 
         if (!user.picture) {
           user.picture = '/profile_placeholder.jpg';
@@ -63,9 +62,6 @@ const LoginPage = () => {
 
         localStorage.setItem("user", JSON.stringify(user));
         navigate("/user-profile");
-      } else {
-        alert("Login failed");
-      }
     } catch (err) {
       console.error("Login error:", err);
       alert("Error logging in");
