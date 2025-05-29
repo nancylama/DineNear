@@ -194,19 +194,19 @@ app.post("/api/login", async (req, res) => {
   }
 
   try {
-    const [results] = await connection.promise.query(
+    const [results] = await connection.promise().query(
       'SELECT * FROM users WHERE email = ?', [email]
     );
 
-    const user = results[0];
-
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+    if (results.length === 0) {
+      return res.status(401).json({ success: false, error: 'Invalid credentials' });
     }
+
+    const user = results[0];
 
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      return res.status(401).json({ error: 'Invalid credentials' });
+      return res.status(401).json({ success: false, error: 'Invalid credentials' });
     }
 
     res.json({
@@ -285,8 +285,7 @@ app.post('/api/reviews', async (req, res) => {
 const query = 'INSERT INTO review (restaurant_id, rating, comment) VALUES (?, ?, ?);';
 const [result] = await connection.promise().query(query, [restaurant_id, rating, comment]);
 
-    res.status(201).json({ review_id: result.insertId });
-    res.status(201).json({ message: "Review submitted successfully" });
+    res.status(201).json({ message: "Review submitted successfully", review_id: result.insertId });
   } catch (err) {
     console.error("Error inserting review:", err);
     return res.status(500).json({ error: "Error inserting review" });
