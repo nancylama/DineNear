@@ -163,7 +163,7 @@ app.post("/api/google-register", async (req, res) => {
   }
 });
 
-// Register API
+// Register
 app.post("/api/register", async (req, res) => {
   const { email, password, name, dob } = req.body;
 
@@ -182,6 +182,42 @@ app.post("/api/register", async (req, res) => {
   } catch (err) {
     console.error("Error:", err);
     res.status(500).send([false, "Server error"]);
+  }
+});
+
+// Login
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and password required" })
+  }
+
+  try {
+    const [results] = await connection.promise.query(
+      'SELECT * FROM users WHERE email = ?', [email]
+    );
+
+    const user = results[0];
+
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).json({ error: 'Invalid credentials' });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        email: user.email,
+        name: user.name,
+        phone: user.phone,
+        diet: user.diet,
+        payment: user.payment
+      }
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ success: false, message: "Login error" })
   }
 });
 
@@ -374,10 +410,10 @@ app.get("/api/update-profile", async (req, res) => {
 
   try {
     const [result] = await connection.promise().query(
-      'SELECT email, name, phone, diet FROM users WHERE email = ?', [email]
+      'SELECT email, name, phone, diet, payment FROM users WHERE email = ?', [email]
     );
     res.json(result[0]);
-  } catch {
+  } catch (err) {
     console.error("Error getting updated profile:", err);
     return res.status(500).json({ error: "Error getting updated profile" });
   }

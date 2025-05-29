@@ -45,11 +45,31 @@ const LoginPage = () => {
 
   };
 
-  const handleManualLogin = (e) => {
+  const handleManualLogin = async (e) => {
     e.preventDefault();
-    const manualUser = { name, email, picture: '/profile_placeholder.jpg' };
-    localStorage.setItem("user", JSON.stringify(manualUser));
-    navigate("/user-profile");
+    // const manualUser = { name, email, picture: '/profile_placeholder.jpg' };
+    // localStorage.setItem("user", JSON.stringify(manualUser));
+    // navigate("/user-profile");
+
+    try {
+      const result = await api.post("/api/login", { email, password });
+
+      if (result.data.success) {
+        const user =  result.data.user;
+
+        if (!user.picture) {
+          user.picture = '/profile_placeholder.jpg';
+        }
+
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/user-profile");
+      } else {
+        alert("Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("Error logging in");
+    }
   };
 
   return (
