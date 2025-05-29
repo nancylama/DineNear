@@ -186,44 +186,44 @@ app.post("/api/register", async (req, res) => {
 });
 
 // Login
-app.post("/api/login", async (req, res) => {
-  const { email, password } = req.body;
+// app.post("/api/login", async (req, res) => {
+//   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ success: false, message: "Email and password required" })
-  }
+//   if (!email || !password) {
+//     return res.status(400).json({ success: false, message: "Email and password required" })
+//   }
 
-  try {
-    const [results] = await connection.promise().query(
-      'SELECT * FROM users WHERE email = ?', [email]
-    );
+//   try {
+//     const [results] = await connection.promise().query(
+//       'SELECT * FROM users WHERE email = ?', [email]
+//     );
 
-    if (results.length === 0) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    }
+//     if (results.length === 0) {
+//       return res.status(401).json({ success: false, error: 'Invalid credentials' });
+//     }
 
-    const user = results[0];
+//     const user = results[0];
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
-      return res.status(401).json({ success: false, error: 'Invalid credentials' });
-    }
+//     const validPassword = await bcrypt.compare(password, user.password);
+//     if (!validPassword) {
+//       return res.status(401).json({ success: false, error: 'Invalid credentials' });
+//     }
 
-    res.json({
-      success: true,
-      user: {
-        email: user.email,
-        name: user.name,
-        phone: user.phone,
-        diet: user.diet,
-        payment: user.payment
-      }
-    });
-  } catch (err) {
-    console.error("Login error:", err);
-    res.status(500).json({ success: false, message: "Login error" })
-  }
-});
+//     res.json({
+//       success: true,
+//       user: {
+//         email: user.email,
+//         name: user.name,
+//         phone: user.phone,
+//         diet: user.diet,
+//         payment: user.payment
+//       }
+//     });
+//   } catch (err) {
+//     console.error("Login error:", err);
+//     res.status(500).json({ success: false, message: "Login error" })
+//   }
+// });
 
 // Top Rated Restaurants
 app.get('/api/top-rated', async (req, res) => {

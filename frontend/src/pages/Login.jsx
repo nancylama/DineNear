@@ -47,25 +47,25 @@ const LoginPage = () => {
 
   const handleManualLogin = async (e) => {
     e.preventDefault();
-    // const manualUser = { name, email, picture: '/profile_placeholder.jpg' };
-    // localStorage.setItem("user", JSON.stringify(manualUser));
-    // navigate("/user-profile");
+    const manualUser = { name, email, picture: '/profile_placeholder.jpg' };
+    localStorage.setItem("user", JSON.stringify(manualUser));
+    navigate("/user-profile");
 
-    try {
-      const result = await api.post("/api/login", { email, password });
+    // try {
+    //   const result = await api.post("/api/login", { email, password });
 
-      const user = result.data.user;
+    //   const user = result.data.user;
 
-        if (!user.picture) {
-          user.picture = '/profile_placeholder.jpg';
-        }
+    //     if (!user.picture) {
+    //       user.picture = '/profile_placeholder.jpg';
+    //     }
 
-        localStorage.setItem("user", JSON.stringify(user));
-        navigate("/user-profile");
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Error logging in");
-    }
+    //     localStorage.setItem("user", JSON.stringify(user));
+    //     navigate("/user-profile");
+    // } catch (err) {
+    //   console.error("Login error:", err);
+    //   alert("Error logging in");
+    // }
   };
 
   return (
