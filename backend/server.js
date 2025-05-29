@@ -293,11 +293,11 @@ app.get('/api/restaurants', async (req, res) => {
 
 // Deals 
 app.get('/api/deals', async (req, res) => {
-  try{
+  try {
     const query = "SELECT * FROM deal";
     const [results] = await connection.promise().query(query);
     res.json(results);
-  } catch (err){
+  } catch (err) {
     console.error('Error getting deals:', err);
     res.status(500).send ([false, 'Error']);
   }
@@ -346,7 +346,7 @@ app.post('/api/order-details', async (req, res) => {
 
 // Update profile
 app.put("/api/update-profile", async (req, res) => {
-  const {email, name, phone, diet, payment } = req.body;
+  const { email, name, phone, diet, payment } = req.body;
 
   if (!email || !name) {
       return res.status(400).json({ success: false, message: "Missing required fields" });
@@ -366,6 +366,20 @@ app.put("/api/update-profile", async (req, res) => {
   } catch (err) {
       console.error("Error updating profile:", err);
       return res.status(500).json({ error: "Error updating profile" });
+  }
+});
+
+app.get("/api/update-profile", async (req, res) => {
+  const { email } = req.query;
+
+  try {
+    const [result] = await connection.promise().query(
+      'SELECT email, name, phone, diet FROM users WHERE email = ?', [email]
+    );
+    res.json(result[0]);
+  } catch {
+    console.error("Error getting updated profile:", err);
+    return res.status(500).json({ error: "Error getting updated profile" });
   }
 });
 

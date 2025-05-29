@@ -63,7 +63,18 @@ const UserPage = () => {
 
             const result = res.data;
             if (result.success) {
-                localStorage.setItem("user", JSON.stringify({ email, name, phone, diet, payment }));
+                // localStorage.setItem("user", JSON.stringify({ email, name, phone, diet, payment }));
+                // alert("Profile updated.");
+                const res = await api.get('/api/update-profile', {
+                    params: { email }
+                });
+
+                const updatedUser = res.data;
+                localStorage.setItem("user", JSON.stringify(updatedUser));
+                setName(updatedUser.name);
+                setPhone(updatedUser.phone);
+                setDiet(updatedUser.diet);
+                setPayment(updatedUser.payment);
                 alert("Profile updated.");
             } else {
                 alert("Error updating profile.");
