@@ -282,8 +282,8 @@ app.post('/api/reviews', async (req, res) => {
  const { rating, comment, restaurant_id } = req.body;
 
   try {
-const query = 'INSERT INTO review (restaurant_id, rating, comment) VALUES (?, ?, ?);';
-const [result] = await connection.promise().query(query, [restaurant_id, rating, comment]);
+    const query = 'INSERT INTO review (restaurant_id, rating, comment) VALUES (?, ?, ?);';
+    const [result] = await connection.promise().query(query, [restaurant_id, rating, comment]);
 
     res.status(201).json({ message: "Review submitted successfully", review_id: result.insertId });
   } catch (err) {
@@ -384,7 +384,7 @@ app.post('/api/order-details', async (req, res) => {
 });
 
 // Update profile
-app.put("/api/update-profile", async (req, res) => {
+app.post("/api/update-profile", async (req, res) => {
   const { email, name, phone, diet, payment } = req.body;
 
   if (!email || !name) {
